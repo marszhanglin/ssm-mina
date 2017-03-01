@@ -59,11 +59,11 @@ public class Log4jXmlFormatter extends Formatter {
     /**
      * The <b>LocationInfo</b> option takes a boolean value. By default,
      * it is set to false which means there will be no location
-     * information output by this layout. If the the option is set to
+     * information output by this acticity_minat. If the the option is set to
      * true, then the file name and line number of the statement at the
      * origin of the log statement will be output.
      *
-     * @param flag whether locationInfo should be output by this layout
+     * @param flag whether locationInfo should be output by this acticity_minat
      */
     public void setLocationInfo(boolean flag) {
         locationInfo = flag;
