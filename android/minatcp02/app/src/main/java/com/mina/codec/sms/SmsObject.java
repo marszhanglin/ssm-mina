@@ -1,4 +1,4 @@
-package mina.marszhang.minatcp02.controller.mina;
+package com.mina.codec.sms;
 
 /**
  * 
@@ -31,10 +31,11 @@ public class SmsObject {
 	public void setBody(String body) {
 		this.body = body;
 	}
-
-	public SmsObject(String body, String receiver, String sender) {
-		this.body = body;
+	public SmsObject(String receiver, String sender, String body) {
 		this.receiver = receiver;
 		this.sender = sender;
+		this.body = body;
 	}
+	
+	
 }

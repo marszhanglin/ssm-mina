@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mina.MinaController;
+import com.mina.codec.sms.SmsObject;
+
 import mina.marszhang.minatcp02.R;
-import mina.marszhang.minatcp02.controller.mina.MinaController;
-import mina.marszhang.minatcp02.controller.mina.SmsObject;
 
 /**
  * <B style="color:#00f"> </B>

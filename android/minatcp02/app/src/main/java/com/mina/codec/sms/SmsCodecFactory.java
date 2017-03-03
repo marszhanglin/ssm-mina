@@ -1,11 +1,11 @@
-package mina.marszhang.minatcp02.controller.mina;
+package com.mina.codec.sms;
+
+import java.nio.charset.Charset;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
-
-import java.nio.charset.Charset;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class SmsCodecFactory implements ProtocolCodecFactory {
 	private SmsEncoder encoder;
 	
 	public SmsCodecFactory() {
-		this(Charset.defaultCharset());
+		this(Charset.forName("UTF-8"));
 	}
 
 	public SmsCodecFactory(Charset charset) {
