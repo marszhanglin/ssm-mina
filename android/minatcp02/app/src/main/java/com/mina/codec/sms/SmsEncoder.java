@@ -1,13 +1,16 @@
 package com.mina.codec.sms;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
+import android.annotation.SuppressLint;
+
+import com.google.gson.Gson;
+
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
-import android.annotation.SuppressLint;
-import com.google.gson.Gson;
+
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 
 /**
  * 
@@ -34,18 +37,20 @@ public class SmsEncoder extends ProtocolEncoderAdapter {
 		SmsObject smsObject=(SmsObject) message;
 		CharsetEncoder ce=mCharset.newEncoder();
 		IoBuffer ioBuffer = IoBuffer.allocate(100).setAutoExpand(true);
-		ioBuffer.putString("T:aaabbbccc"+"\n", ce);
+		ioBuffer.putString("T:"+smsObject.getType()+"\n", ce);
 		ioBuffer.putString("S:"+smsObject.getSender()+"\n", ce);
 		ioBuffer.putString("R:"+smsObject.getReceiver()+"\n", ce);
+		ioBuffer.putString("V:"+smsObject.getValidate()+"\n", ce);
 		ioBuffer.putString("L:"+smsObject.getBody().getBytes(mCharset).length+"\n", ce);
 		ioBuffer.putString(smsObject.getBody(), ce);
 		System.out.println("encode:"+new Gson().toJson(message));
 		ioBuffer.flip();
 		out.write(ioBuffer);
 	}
-//T:aaaa\n
-//S:18950478288\n
-//R:18950478888\n
-//L:10\n
-//1234567890
+	//T:01\n
+	//S:18950478288\n
+	//R:18950478888\n
+	//V:md5value\n
+	//L:10\n
+	//1234567890
 }
