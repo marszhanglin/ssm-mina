@@ -42,7 +42,7 @@ public class SmsDecoder extends CumulativeProtocolDecoder {
             byte b = in.get();//从输入流中获取当前位置的字节
             ioBuffer.put(b);//写入缓存
             matchCount++;//记录读取缓存的位置
-            if (i < 5 && b == 10) {//10为\n
+            if (i < 6 && b == 10) {//10为\n
                 switch (i) {
                     case 1://第1行
                         ioBuffer.flip();//校验0位置或者说是调整0的位置

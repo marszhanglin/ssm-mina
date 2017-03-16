@@ -119,7 +119,7 @@ public class MinaController {
     		connectFuture=nioSocketConnector.connect(mInetSocketAddress);
             connectFuture.awaitUninterruptibly();
             ioSession = connectFuture.getSession(); 
-            ioSession.write(new SmsObject(ConnectType.DATA,"270504808", "780965203","你好，我是客户端","aaa"));
+            ioSession.write(new SmsObject(ConnectType.DATA,"270504808", "780965203","aaa","你好，我是客户端"));
             System.out.println("连接服务端：当前Id"+ioSession.getId());
     	}else{
     		System.out.println("服务端已连接：当前Id"+ioSession.getId());

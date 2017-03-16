@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.mina.MinaController;
 import com.mina.codec.sms.SmsObject;
+import com.mina.connectmanage.ConnectConfig;
+import com.mina.connectmanage.MinaMessageInterface;
 
 import mina.marszhang.minatcp02.R;
 
@@ -32,17 +34,19 @@ public class MinaConnectTestActivity extends Activity {
             @Override
             public void run() {
 
-                MinaController.getINSTANCE(new MinaController.MinaMessageInterface(){
-                    @Override
-                    public void messageReceived(final Object object) {
-                        tvMsg.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvMsg.append(((SmsObject)object).getBody());
-                            }
-                        });
-                    }
-                }).connect();
+               MinaController minaController= MinaController.getINSTANCE();
+               minaController.setConfig(new ConnectConfig("192.168.1.106",new MinaMessageInterface(){
+                   @Override
+                   public void messageReceived(final Object object) {
+                       tvMsg.post(new Runnable() {
+                           @Override
+                           public void run() {
+                                tvMsg.setText(((SmsObject)object).getBody());
+                           }
+                       });
+                   }
+               },10000));
+                minaController.connect();
             }
         }).start();
     }
