@@ -1,0 +1,5 @@
+*.class
+/web/minassm/war
+/web/minassm/WebRoot/img
+/web/minassm/WebRoot/fonts
+/web/minassm/WebRoot/WEB-INF
