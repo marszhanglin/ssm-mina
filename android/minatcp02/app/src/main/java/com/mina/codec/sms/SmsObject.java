@@ -1,5 +1,7 @@
 package com.mina.codec.sms;
 
+import com.mina.connectmanage.ConnectType;
+
 /**
  * 
  * <B style="color:#00f"> 短信协调对象</B>
@@ -57,4 +59,12 @@ public class SmsObject {
 		this.type = type;
 		this.validate = validate;
 	}
+	public SmsObject(String body) {
+		this.body = body;
+		this.receiver = "service";
+		this.sender = "client";
+		this.type = ConnectType.DATA;
+		this.validate = "no";
+	}
+
 }

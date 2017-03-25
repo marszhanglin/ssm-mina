@@ -1,5 +1,7 @@
 package com.mina.connectmanage;
 
+import mina.marszhang.minatcp02.common.Const;
+
 /**
  * <B style="color:#00f"> 客户端连接配置</B>
  * <br> ip 端口 回调  配置
@@ -45,5 +47,11 @@ public class ConnectConfig {
         this.ip = ip;
         this.minaMessageInterface = minaMessageInterface;
         this.port = port;
+    }
+
+    public ConnectConfig(MinaMessageInterface minaMessageInterface) {
+        this.ip = Const.MINA_IP;
+        this.minaMessageInterface = minaMessageInterface;
+        this.port = Const.MINA_PORT;
     }
 }

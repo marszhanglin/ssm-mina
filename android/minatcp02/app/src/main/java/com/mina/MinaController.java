@@ -1,5 +1,7 @@
 package com.mina;
 
+import android.util.Log;
+
 import com.mina.codec.sms.SmsCodecFactory;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectConfig;
@@ -15,6 +17,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
+
+import mina.marszhang.minatcp02.common.Const;
 
 /**
  * <B style="color:#00f"> mina控制类</B>
@@ -41,7 +45,7 @@ public class MinaController {
         if (nioSocketConnector == null) {
             nioSocketConnector = new NioSocketConnector();
         }
-        nioSocketConnector.setConnectTimeoutMillis(5000);
+        nioSocketConnector.setConnectTimeoutMillis(Const.MINA_TIMEOUT*1000);
         nioSocketConnector.setHandler(new IoHandler() {
             @Override
             public void sessionCreated(IoSession session) throws Exception {
@@ -75,7 +79,7 @@ public class MinaController {
 
             @Override
             public void messageSent(IoSession session, Object message) throws Exception {
-            	System.out.println("3"); 
+            	Log.d("$$$$$$", "$$$$$$3");
             }
 
             @Override
@@ -85,7 +89,7 @@ public class MinaController {
         });
         nioSocketConnector.getFilterChain().addLast("codec",
                 new ProtocolCodecFilter(new SmsCodecFactory(Charset.forName("UTF-8"))));//往最后面加一个过滤器
-        System.out.println("mina初始化完毕");
+        Log.d("$$$$$$", "$$$$$$mina初始化完毕");
     }
     public static MinaController getINSTANCE(){
         if (INSTANCE == null) {
@@ -112,31 +116,32 @@ public class MinaController {
     }
 
     private NioSocketConnector nioSocketConnector =new NioSocketConnector();
+    //注意ioSeeion的生命周期
     private IoSession ioSession ;
+    /**mina连接状态*/
     private ConnectFuture connectFuture;
     public long connect(){
     	if(null==connectFuture||!connectFuture.isConnected()){
     		connectFuture=nioSocketConnector.connect(mInetSocketAddress);
-            connectFuture.awaitUninterruptibly();
+            connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
             ioSession = connectFuture.getSession(); 
-            ioSession.write(new SmsObject(ConnectType.DATA,"270504808", "780965203","aaa","你好，我是客户端"));
-            System.out.println("连接服务端：当前Id"+ioSession.getId());
+            ioSession.write(new SmsObject(ConnectType.DATA,"270504808", "780965203","no","connect"));
+            Log.d("$$$$$$", "$$$$$$连接服务端：当前Id"+ioSession.getId());
     	}else{
-    		System.out.println("服务端已连接：当前Id"+ioSession.getId());
+    		Log.d("$$$$$$", "$$$$$$服务端已连接：当前Id"+ioSession.getId());
     	}
         // TODO 连接之后的心跳处理
         return ioSession.getId();
     }
 
-    public boolean disconnect(long sessionid){
+    public boolean disconnect(){
         if(null==connectFuture||!connectFuture.isCanceled()){
-            System.out.println("已经与服务端断开连接");
+            Log.d("$$$$$$", "$$$$$$已经与服务端断开连接");
             return true;
         }else{
-            System.out.println("未与服务端断开连接，正在断连");
+            Log.d("$$$$$$", "$$$$$$未与服务端断开连接，正在断连");
             ioSession.closeOnFlush();
         }
-
         return true;
     }
 
@@ -147,9 +152,8 @@ public class MinaController {
      */
     public boolean sendMessage(SmsObject smsObject){
         connect();
-
+        connectFuture.awaitUninterruptibly();
+        ioSession.write(smsObject);
         return true;
     }
-
-
 }
