@@ -31,7 +31,7 @@ public class SmsDecoder extends CumulativeProtocolDecoder {
         IoBuffer ioBuffer = IoBuffer.allocate(100).setAutoExpand(true);
         CharsetDecoder cd = mCharset.newDecoder();
         int matchCount = 0;
-        String top = "";
+        String type = "";
         String sender = "";
         String receiver = "";
         String validate = "";
@@ -46,8 +46,8 @@ public class SmsDecoder extends CumulativeProtocolDecoder {
                 switch (i) {
                     case 1://第1行
                         ioBuffer.flip();//校验0位置或者说是调整0的位置
-                        top = ioBuffer.getString(matchCount, cd);//从缓存中读取改行
-                        top = top.substring(0, top.length() - 1);//去掉\n
+                        type = ioBuffer.getString(matchCount, cd);//从缓存中读取改行
+                        type = type.substring(0, type.length() - 1);//去掉\n
                         matchCount = 0;
                         ioBuffer.clear();//0<=位置 <=限制 <=容量   变为  0=位置 <=限制 =容量  为写入做准备   为了写下一行
                         i++;
@@ -98,8 +98,8 @@ public class SmsDecoder extends CumulativeProtocolDecoder {
                 }
             }
         }
-        SmsObject smsObject = new SmsObject(validate.split(":")[1],
-                receiver.split(":")[1], sender.split(":")[1], length.split(":")[1], body);
+        SmsObject smsObject = new SmsObject(type.split(":")[1],
+                receiver.split(":")[1], sender.split(":")[1], validate.split(":")[1], body);
         System.out.println("解码：" + new Gson().toJson(smsObject));
         out.write(smsObject);
         return false;//false:表示本次读取完毕，不在调用doDecoder  true:
