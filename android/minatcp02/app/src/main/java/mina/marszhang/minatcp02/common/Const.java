@@ -7,7 +7,7 @@ package mina.marszhang.minatcp02.common;
  * @author zhanglin  2017/3/25
  */
 public class Const {
-    public static String MINA_IP = "192.168.1.38";
+    public static String MINA_IP = "192.168.1.61";
     public static int MINA_PORT=10000;
     public static int MINA_TIMEOUT=5;
 

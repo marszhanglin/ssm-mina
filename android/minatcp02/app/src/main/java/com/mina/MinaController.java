@@ -9,7 +9,7 @@ import com.mina.connectmanage.ConnectType;
 import com.mina.connectmanage.MinaMessageInterface;
 
 import org.apache.mina.core.future.ConnectFuture;
-import org.apache.mina.core.service.IoHandler;
+import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
@@ -40,51 +40,52 @@ public class MinaController {
         init();
     }
 
-
     private void init(){
         if (nioSocketConnector == null) {
             nioSocketConnector = new NioSocketConnector();
         }
         nioSocketConnector.setConnectTimeoutMillis(Const.MINA_TIMEOUT*1000);
-        nioSocketConnector.setHandler(new IoHandler() {
+        nioSocketConnector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionCreated(IoSession session) throws Exception {
-
+                mMinaMessageInterface.systemMsg("sessionCreated");
             }
 
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-
+                mMinaMessageInterface.systemMsg("sessionOpened");
             }
 
             @Override
             public void sessionClosed(IoSession session) throws Exception {
-
+                mMinaMessageInterface.systemMsg("sessionClosed");
             }
 
             @Override
             public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
-
+                mMinaMessageInterface.systemMsg("sessionIdle");
             }
 
             @Override
             public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-
+                mMinaMessageInterface.systemMsg("exceptionCaught");
             }
 
             @Override
             public void messageReceived(IoSession session, Object message) throws Exception {
                 mMinaMessageInterface.messageReceived(message);
+                mMinaMessageInterface.systemMsg("messageReceived");
             }
 
             @Override
             public void messageSent(IoSession session, Object message) throws Exception {
-            	Log.d("$$$$$$", "$$$$$$3");
+                mMinaMessageInterface.systemMsg("messageSent");
             }
 
             @Override
             public void inputClosed(IoSession session) throws Exception {
-
+                mMinaMessageInterface.systemMsg("inputClosed");
+                session.closeOnFlush();
             }
         });
         nioSocketConnector.getFilterChain().addLast("codec",
@@ -118,31 +119,58 @@ public class MinaController {
     private NioSocketConnector nioSocketConnector =new NioSocketConnector();
     //注意ioSeeion的生命周期
     private IoSession ioSession ;
-    /**mina连接状态*/
+    /**mina连接状态 表示曾经*/
     private ConnectFuture connectFuture;
     public long connect(){
-    	if(null==connectFuture||!connectFuture.isConnected()){
-    		connectFuture=nioSocketConnector.connect(mInetSocketAddress);
-            connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
-            ioSession = connectFuture.getSession(); 
-            ioSession.write(new SmsObject(ConnectType.DATA,"270504808", "780965203","no","connect"));
-            Log.d("$$$$$$", "$$$$$$连接服务端：当前Id"+ioSession.getId());
-    	}else{
-    		Log.d("$$$$$$", "$$$$$$服务端已连接：当前Id"+ioSession.getId());
-    	}
+
+        switch (getConnectState()) {
+            case future_false:
+                connectFuture=nioSocketConnector.connect(mInetSocketAddress);
+                connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
+                ioSession = connectFuture.getSession();
+                ioSession.write(new SmsObject(ConnectType.CONNECT,"no", "no","no","connect"));
+                break;
+            case session_false:
+                connectFuture=nioSocketConnector.connect(mInetSocketAddress);
+                connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
+                ioSession = connectFuture.getSession();
+                ioSession.write(new SmsObject(ConnectType.CONNECT,"no", "no","no","connect"));
+                break;
+            case session_true:
+                break;
+        }
+        Log.d("$$$$$$", "$$$$$$connect:"+ioSession.getId());
         // TODO 连接之后的心跳处理
         return ioSession.getId();
     }
 
     public boolean disconnect(){
-        if(null==connectFuture||!connectFuture.isCanceled()){
-            Log.d("$$$$$$", "$$$$$$已经与服务端断开连接");
-            return true;
-        }else{
-            Log.d("$$$$$$", "$$$$$$未与服务端断开连接，正在断连");
-            ioSession.closeOnFlush();
+        switch (getConnectState()) {
+            case future_false:
+                break;
+            case session_false:
+                break;
+            case session_true:
+                ioSession.closeOnFlush();
+                break;
         }
+        Log.d("$$$$$$", "$$$$$$disconnect:"+ioSession.getId());
         return true;
+    }
+
+    private ConnectState getConnectState(){
+        if(null!=connectFuture&&connectFuture.isConnected()){
+            if(null!=ioSession&&ioSession.isActive()){
+                Log.d("$$$$$$", "$$$$$$ioSession--true");
+                return ConnectState.session_true;
+            }else{
+                Log.d("$$$$$$", "$$$$$$ioSession--false");
+                return ConnectState.session_false;
+            }
+        }else{
+            Log.d("$$$$$$", "$$$$$$connectFuture--false");
+            return ConnectState.future_false;
+        }
     }
 
     /**
@@ -155,5 +183,13 @@ public class MinaController {
         connectFuture.awaitUninterruptibly();
         ioSession.write(smsObject);
         return true;
+    }
+
+
+
+    public enum ConnectState{
+        future_false,
+        session_false,
+        session_true
     }
 }

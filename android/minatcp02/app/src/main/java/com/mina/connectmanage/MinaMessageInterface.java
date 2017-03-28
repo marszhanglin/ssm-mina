@@ -9,4 +9,7 @@ package com.mina.connectmanage;
 public interface MinaMessageInterface {
 
     public void messageReceived(Object object);
+
+    /** 系统消息  测试用 */
+    public void systemMsg(String object);
 }

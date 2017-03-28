@@ -4,39 +4,85 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="50dp" />
+    <EditText
+        android:id="@+id/ed_msg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
 
-
         <Button
+            android:id="@+id/button"
             android:layout_width="120dp"
             android:layout_height="50dp"
-            android:text="connect"
+            android:background="@color/colorPrimary"
             android:onClick="connect"
-            android:background="@color/colorPrimary"/>
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:text="sendmessage"
-            android:onClick="sendmessage"
-            android:background="#17de8b"/>
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:text="disconnect"
-            android:onClick="disconnect"
-            android:background="@color/colorAccent"/>
-    </LinearLayout>
-    
+            android:text="connect" />
 
-    <TextView
-        android:id="@+id/msg"
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#17de8b"
+            android:onClick="sendmessage"
+            android:text="sendmessage" />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:onClick="disconnect"
+            android:text="disconnect" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#ef6119"
+            android:onClick="heart"
+            android:text="heart" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/sys_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
 </LinearLayout>

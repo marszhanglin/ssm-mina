@@ -18,11 +18,14 @@ package com.mina.connectmanage;
 import android.util.Log;
 
 import com.mina.MinaController;
+import com.mina.codec.sms.HeartMessage;
 
 /**
  *
  * <B style="color:#00f"> 重连线程</B>
- * <br>
+ * <br>1、因为其它非主观的断连就要重连，
+ * <br>2、电梯、隧道、长时间断网等各种情况的等待机制
+ * <br>3、
  * @author zhanglin  2017年3月3日
  */
 public class ReconnectionThread extends Thread {
@@ -43,10 +46,12 @@ public class ReconnectionThread extends Thread {
                 Log.d("$$$$$$", "$$$$$$Trying to reconnect in " + waiting()
                         + " seconds");
                 Thread.sleep((long) waiting() * 1000L);
-                mMinaController.connect();
+                mMinaController.sendMessage(new HeartMessage());
                 waiting++;
             }
         } catch (final InterruptedException e) {
+            Log.e("$$$$$$", "$$$$$$ reconnect error [wait:" + waiting()
+                    + ",errorMsg :"+e.getMessage());
           /*  mMinaController.getHandler().post(new Runnable() {
                 public void run() {
                     mMinaController.getConnectionListener().reconnectionFailed(e);
@@ -55,12 +60,18 @@ public class ReconnectionThread extends Thread {
         }
     }
 
+    /**
+     * @return
+     */
     private int waiting() {
-        if (waiting > 20) {
-            return 600;
+        if(waiting > 30){//110分钟过去
+            return 30*60;
         }
-        if (waiting > 13) {
-            return 300;
+        if (waiting > 20) {//40分钟过去
+            return 10*60;
+        }
+        if (waiting > 13) {//7分钟过去
+            return 5*60;
         }
         return waiting <= 7 ? 10 : 60;
     }

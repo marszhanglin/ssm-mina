@@ -27,6 +27,9 @@ public class BootStartService extends Service {
         Log.d("$$$$$$","$$$$$$BootStartService--------onStartCommand");
         Intent i1=new Intent(this,MinaService.class);
         startService(i1);
+
+
+
         return super.onStartCommand(intent, flags, startId);
     }
 }

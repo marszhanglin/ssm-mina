@@ -5,14 +5,23 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
+import com.mina.MinaController;
+import com.mina.codec.sms.SmsObject;
+import com.mina.connectmanage.ConnectConfig;
 import com.mina.connectmanage.ConnectivityReceiver;
+import com.mina.connectmanage.MinaMessageInterface;
+
+import java.util.Locale;
 
 
 public class MinaService extends Service {
 
     private ConnectivityReceiver mConnectivityReceiver;
+    private MinaController mMinaController;
+    private TextToSpeech mTextToSpeech;
     @Override
     public void onCreate() {
         Log.d("$$$$$$","MinaService--------onCreate");
@@ -28,9 +37,56 @@ public class MinaService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("$$$$$$","MinaService--------onStartCommand");
-
+        if(null!=mTextToSpeech){
+            return super.onStartCommand(intent, flags, startId);
+        }
+        initTTS();
+        initMina();
         registerConnectListener();
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void initMina() {
+        mMinaController =  MinaController.getINSTANCE();
+        mMinaController.setConfig(new ConnectConfig(new MinaMessageInterface() {
+            @Override
+            public void messageReceived(Object object) {
+                //语言播报
+                String input= ((SmsObject)object).getBody();
+                Log.d("$$$$$$","语音播报内容："+input);
+                mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
+            }
+
+            @Override
+            public void systemMsg(String object) {
+
+            }
+        }));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mMinaController.connect();
+            }
+        }).start();
+    }
+
+
+    private void initTTS(){
+        mTextToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                mTextToSpeech.setLanguage(Locale.US);//英文
+//                mTextToSpeech.setLanguage(Locale.CHINA);
+
+//                if (status == TextToSpeech.SUCCESS) {
+//                    int result = mTextToSpeech.setLanguage(Locale.CHINA);
+//                    if (result == TextToSpeech.LANG_MISSING_DATA
+//                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+//                        Log.d("$$$$$$","语音播报：数据丢失或不支持");
+//                    }
+//                }
+            }
+        });
     }
 
 
