@@ -8,9 +8,8 @@ package com.mina.connectmanage;
  * @author zhanglin  ${date}
  */
 public class ConnectType {
-
+    public static String CONNECT = "00";
     public static String HEART_BEATER = "01";
     public static String DATA="02";
-
-
+    public static String DISCONNECT = "03";
 }

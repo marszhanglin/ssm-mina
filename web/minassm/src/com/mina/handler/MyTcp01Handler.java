@@ -1,5 +1,6 @@
 package com.mina.handler;
 
+import org.apache.http.util.TextUtils;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -12,50 +13,61 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
-		System.out.println(session.getId()+"服务器端session被创建sessionCreated");
+		System.out.println(session.getId()+":sessionCreated");
 	}
 
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
-		System.out.println(session.getId()+"服务器端session被打开sessionOpened");
+		System.out.println(session.getId()+":sessionOpened");
 
 	}
 
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		System.out.println(session.getId()+"服务器端session被关闭sessionClosed");
+		System.out.println(session.getId()+":sessionClosed");
 
 	}
 
 	@Override
 	public void sessionIdle(IoSession session, IdleStatus status)
 			throws Exception {
-		System.out.println(session.getId()+"服务器端session进入休眠sessionIdle"+"---"+status.toString());
-
+		System.out.println(session.getId()+":sessionIdle"+",status:"+status.toString());
+		session.closeOnFlush();
 	}
 
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
-		System.out.println(session.getId()+"服务器端session异常抛出exceptionCaught");
+		System.out.println(session.getId()+":exceptionCaught:"+cause.getMessage());
 	}
 
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-		System.out.println(session.getId()+"服务器端session接收到消息messageReceived"+new Gson().toJson(message));
-		session.write( new SmsObject(ConnectType.DATA,"780965203", "270504808","validatevalue", "hello client 我是服务端"));
+		System.out.println(new Gson().toJson(message));
+		SmsObject  smsObject=(SmsObject)message;
+		String typeString=smsObject.getType();
+		if(!TextUtils.isEmpty(typeString)&&ConnectType.HEART_BEATER.equals(typeString)){
+			System.out.println(session.getId()+":心跳["+smsObject.getBody()+"]");
+		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DATA.equals(typeString)) {
+			System.out.println(session.getId()+":数据["+smsObject.getBody()+"]");
+		}
+		
+		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "服务端:"+typeString));
+		
+		//短连接   一连上来就关闭 
+		//session.closeOnFlush();
 	}
 
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
-		System.out.println(session.getId()+"服务器端session发送消息messageSent:"+message);
+		System.out.println(session.getId()+":messageSent:"+message);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void inputClosed(IoSession session) throws Exception {
-		System.out.println(session.getId()+"服务器端inputClosed"); 
+		System.out.println(session.getId()+":inputClosed"); 
 		super.inputClosed(session);
 	}
 	
