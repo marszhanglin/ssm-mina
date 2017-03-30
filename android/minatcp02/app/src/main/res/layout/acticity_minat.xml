@@ -16,7 +16,6 @@
 
 
         <Button
-            android:id="@+id/button"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
@@ -44,12 +43,17 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/button2"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:background="#ef6119"
             android:onClick="heart"
             android:text="heart" />
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#bfc9c9"
+            android:onClick="setting"
+            android:text="setting" />
     </LinearLayout>
 
 

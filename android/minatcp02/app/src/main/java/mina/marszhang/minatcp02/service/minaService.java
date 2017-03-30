@@ -54,7 +54,8 @@ public class MinaService extends Service {
                 //语言播报
                 String input= ((SmsObject)object).getBody();
                 Log.d("$$$$$$","语音播报内容："+input);
-                mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
+                //mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
+
             }
 
             @Override

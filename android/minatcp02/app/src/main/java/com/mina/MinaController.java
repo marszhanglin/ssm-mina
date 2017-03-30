@@ -19,6 +19,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 import mina.marszhang.minatcp02.common.Const;
+import mina.marszhang.minatcp02.util.RegexUtil;
 
 /**
  * <B style="color:#00f"> mina控制类</B>
@@ -90,7 +91,7 @@ public class MinaController {
         });
         nioSocketConnector.getFilterChain().addLast("codec",
                 new ProtocolCodecFilter(new SmsCodecFactory(Charset.forName("UTF-8"))));//往最后面加一个过滤器
-        Log.d("$$$$$$", "$$$$$$mina初始化完毕");
+        Log.d("$$$$$$", "$$$$$$:mina初始化完毕");
     }
     public static MinaController getINSTANCE(){
         if (INSTANCE == null) {
@@ -114,6 +115,17 @@ public class MinaController {
         }
         mInetSocketAddress = new InetSocketAddress(connectConfig.getIp(),connectConfig.getPort());
         mMinaMessageInterface = connectConfig.getMinaMessageInterface();
+    }
+
+
+    public void changeAddr(String ip,int port){
+        if(RegexUtil.isIp(ip)){
+            Log.e("$$$$$$","$$$$$$:not Ip value");
+            return ;
+        }
+        mInetSocketAddress = new InetSocketAddress(ip,port);
+        disconnect();
+        connect();
     }
 
     private NioSocketConnector nioSocketConnector =new NioSocketConnector();

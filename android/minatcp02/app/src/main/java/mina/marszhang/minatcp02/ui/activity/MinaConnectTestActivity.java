@@ -107,4 +107,9 @@ public class MinaConnectTestActivity extends Activity {
             }
         }).start();
     }
+
+    public void setting(View view){
+        MinaController.getINSTANCE().changeAddr(edMsg.getText().toString(),10000);
+    }
+
 }
