@@ -1,5 +1,8 @@
 package mina.marszhang.minatcp02.service;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,7 +17,10 @@ import com.mina.connectmanage.ConnectConfig;
 import com.mina.connectmanage.ConnectivityReceiver;
 import com.mina.connectmanage.MinaMessageInterface;
 
+import java.util.Calendar;
 import java.util.Locale;
+
+import mina.marszhang.minatcp02.receive.HeartBeatReceive;
 
 
 public class MinaService extends Service {
@@ -40,10 +46,23 @@ public class MinaService extends Service {
         if(null!=mTextToSpeech){
             return super.onStartCommand(intent, flags, startId);
         }
+
+        setHeartAlarm();
+
         initTTS();
         initMina();
         registerConnectListener();
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    /**
+     * 设置心跳重复闹钟   暂时
+     */
+    private void setHeartAlarm() {
+        Intent heartBrocastIntent =new Intent(this, HeartBeatReceive.class);
+        PendingIntent heartpendingIntent= PendingIntent.getBroadcast(this,0,heartBrocastIntent,0);
+        AlarmManager am =(AlarmManager)getSystemService(Activity.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(),1*60*1000,heartpendingIntent);
     }
 
     private void initMina() {
@@ -54,7 +73,7 @@ public class MinaService extends Service {
                 //语言播报
                 String input= ((SmsObject)object).getBody();
                 Log.d("$$$$$$","语音播报内容："+input);
-                //mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
+                mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
 
             }
 

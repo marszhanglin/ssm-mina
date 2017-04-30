@@ -17,6 +17,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import mina.marszhang.minatcp02.common.Const;
 import mina.marszhang.minatcp02.util.RegexUtil;
@@ -34,7 +36,7 @@ import mina.marszhang.minatcp02.util.RegexUtil;
  */
 public class MinaController {
 
-    private MinaMessageInterface mMinaMessageInterface;
+    private List<MinaMessageInterface> mMinaMessageInterfaces=new ArrayList<MinaMessageInterface>();
     private InetSocketAddress mInetSocketAddress;
     private static MinaController INSTANCE =null;
     private MinaController(){
@@ -49,43 +51,59 @@ public class MinaController {
         nioSocketConnector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionCreated(IoSession session) throws Exception {
-                mMinaMessageInterface.systemMsg("sessionCreated");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("sessionCreated");
+                }
             }
 
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-                mMinaMessageInterface.systemMsg("sessionOpened");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("sessionOpened");
+                }
             }
 
             @Override
             public void sessionClosed(IoSession session) throws Exception {
-                mMinaMessageInterface.systemMsg("sessionClosed");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("sessionClosed");
+                }
             }
 
             @Override
             public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
-                mMinaMessageInterface.systemMsg("sessionIdle");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("sessionIdle");
+                }
             }
 
             @Override
             public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-                mMinaMessageInterface.systemMsg("exceptionCaught");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("exceptionCaught");
+                }
             }
 
             @Override
             public void messageReceived(IoSession session, Object message) throws Exception {
-                mMinaMessageInterface.messageReceived(message);
-                mMinaMessageInterface.systemMsg("messageReceived");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.messageReceived(message);
+                    minaMessageInterface.systemMsg("messageReceived");
+                }
             }
 
             @Override
             public void messageSent(IoSession session, Object message) throws Exception {
-                mMinaMessageInterface.systemMsg("messageSent");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("messageSent");
+                }
             }
 
             @Override
             public void inputClosed(IoSession session) throws Exception {
-                mMinaMessageInterface.systemMsg("inputClosed");
+                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
+                    minaMessageInterface.systemMsg("inputClosed");
+                }
                 session.closeOnFlush();
             }
         });
@@ -114,8 +132,9 @@ public class MinaController {
             throw new NullPointerException("connectConfig  is  null");
         }
         mInetSocketAddress = new InetSocketAddress(connectConfig.getIp(),connectConfig.getPort());
-        mMinaMessageInterface = connectConfig.getMinaMessageInterface();
+        mMinaMessageInterfaces.add(connectConfig.getMinaMessageInterface());
     }
+
 
 
     public void changeAddr(String ip,int port){

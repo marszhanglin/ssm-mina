@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- 开机广播接收权限 关机不用这个-->
+    <!-- 开机广播接收权限 关机不用这个 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -28,12 +28,10 @@
             android:name=".service.MinaService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".service.BootStartService"
             android:enabled="true"
-            android:exported="true"></service>
-
+            android:exported="true" />
 
         <receiver android:name=".receive.PowerReceiver">
             <intent-filter>
@@ -41,13 +39,18 @@
                 <action android:name="android.intent.action.WAKEUP" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receive.BootAndShutdownReceiver" >
+        <receiver android:name=".receive.BootAndShutdownReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ui.activity.EntryActivity"></activity>
+
+        <receiver android:name=".receive.HeartBeatReceive"/>
     </application>
 
 </manifest>

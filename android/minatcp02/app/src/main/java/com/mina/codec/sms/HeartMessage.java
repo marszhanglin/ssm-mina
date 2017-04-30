@@ -10,7 +10,7 @@ import com.mina.connectmanage.ConnectType;
  */
 public class HeartMessage extends SmsObject {
     public HeartMessage() {
-        super(ConnectType.HEART_BEATER, "service", "client", "no", "_-_-_-_-");
+        super(ConnectType.HEART_BEATER, "service", "client", "no", "heartbeat");
     }
 
 }

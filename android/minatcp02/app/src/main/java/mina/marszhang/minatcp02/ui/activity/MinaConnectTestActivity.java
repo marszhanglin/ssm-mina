@@ -109,7 +109,13 @@ public class MinaConnectTestActivity extends Activity {
     }
 
     public void setting(View view){
-        MinaController.getINSTANCE().changeAddr(edMsg.getText().toString(),10000);
+        //MinaController.getINSTANCE().changeAddr(edMsg.getText().toString(),10000);
     }
+
+    public void web(){
+        //跳转webView 放在fragment中吧
+
+    }
+
 
 }

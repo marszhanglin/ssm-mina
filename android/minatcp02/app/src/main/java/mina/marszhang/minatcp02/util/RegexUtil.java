@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <B style="color:#00f"> </B>
+ * <B style="color:#00f"> 正则验证</B>
  * <br>
  *
  * @author zhanglin  2017/3/30

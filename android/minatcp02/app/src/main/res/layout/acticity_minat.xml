@@ -54,6 +54,13 @@
             android:background="#bfc9c9"
             android:onClick="setting"
             android:text="setting" />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#ef6119"
+            android:onClick="web"
+            android:text="web" />
     </LinearLayout>
 
 
