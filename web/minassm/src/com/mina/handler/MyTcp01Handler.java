@@ -8,12 +8,14 @@ import org.apache.mina.core.session.IoSession;
 import com.google.gson.Gson;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectType;
+import com.np.service.impl.SessionManagerServiceImpl;
 
 public class MyTcp01Handler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 		System.out.println(session.getId()+":sessionCreated");
+		SessionManagerServiceImpl.getInstance().sessionCreated(session);
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 			System.out.println(session.getId()+":数据["+smsObject.getBody()+"]");
 		}
 		
-		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "服务端:"+typeString));
+		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "i am service , "+smsObject.getBody()));
 		
 		//短连接   一连上来就关闭 
 		//session.closeOnFlush();
@@ -68,6 +70,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 	@Override
 	public void inputClosed(IoSession session) throws Exception {
 		System.out.println(session.getId()+":inputClosed"); 
+		SessionManagerServiceImpl.getInstance().sessionRemoved(session);
 		super.inputClosed(session);
 	}
 	
