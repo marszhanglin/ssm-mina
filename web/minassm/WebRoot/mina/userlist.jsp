@@ -22,8 +22,7 @@ $(function(){
 
 <%=path%><br>
 <%=basePath%><br>
-
-<a   title="在线列表" href="/mina/userlist.do" >在线列表</a> 
+ asdsaassd
 
 </body>
 </html>

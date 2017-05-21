@@ -49,10 +49,15 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		System.out.println(new Gson().toJson(message));
 		SmsObject  smsObject=(SmsObject)message;
 		String typeString=smsObject.getType();
-		if(!TextUtils.isEmpty(typeString)&&ConnectType.HEART_BEATER.equals(typeString)){
+		if(!TextUtils.isEmpty(typeString)&&ConnectType.CONNECT.equals(typeString)){
+			System.out.println(session.getId()+":连接["+smsObject.getBody()+"]");
+			doConnect( session,  message);
+		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.HEART_BEATER.equals(typeString)) {
 			System.out.println(session.getId()+":心跳["+smsObject.getBody()+"]");
 		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DATA.equals(typeString)) {
 			System.out.println(session.getId()+":数据["+smsObject.getBody()+"]");
+		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DISCONNECT.equals(typeString)) {
+			System.out.println(session.getId()+":断连["+smsObject.getBody()+"]");
 		}
 		
 		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "i am service , "+smsObject.getBody()));
@@ -60,7 +65,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		//短连接   一连上来就关闭 
 		//session.closeOnFlush();
 	}
-
+	
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
 		System.out.println(session.getId()+":messageSent:"+message);
@@ -73,5 +78,10 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		SessionManagerServiceImpl.getInstance().sessionRemoved(session);
 		super.inputClosed(session);
 	}
+	
+	private void doConnect(IoSession session, Object message) {
+		
+	}
+	
 	
 }
