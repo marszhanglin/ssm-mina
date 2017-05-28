@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<!-- 别名 -->
 	<typeAliases>
-		<package name="com.np.domain"/>
+		<package name="com.mvc.model"/>
 	</typeAliases>
 </configuration>

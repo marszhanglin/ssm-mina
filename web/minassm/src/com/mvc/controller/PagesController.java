@@ -1,5 +1,6 @@
-package com.np.controller;
+package com.mvc.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,8 +8,13 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mvc.service.SessionManagerService;
+
 @Controller
-public class PagesController extends BaseController { 
+public class PagesController  { 
+	
+	@Resource
+	private SessionManagerService sessionManagerService;
 	
     /**
      * 日志记录
@@ -25,7 +31,7 @@ public class PagesController extends BaseController {
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		log.debug(request.getRequestURI());
+		log.debug(request.getRequestURI()); 
 		return "/index"; 
 	} 
 	
@@ -41,4 +47,6 @@ public class PagesController extends BaseController {
 			HttpServletResponse response) throws Exception { 
 		return "/mina/userlist";  
 	}
+	
+	
 }

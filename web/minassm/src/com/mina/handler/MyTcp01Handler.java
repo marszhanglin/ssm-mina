@@ -8,7 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import com.google.gson.Gson;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectType;
-import com.np.service.impl.SessionManagerServiceImpl;
+import com.mvc.service.impl.SessionManagerServiceImpl;
 
 public class MyTcp01Handler extends IoHandlerAdapter {
 

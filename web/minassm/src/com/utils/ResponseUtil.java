@@ -1,4 +1,4 @@
-package com.np.utils;
+package com.utils;
 
 import java.io.PrintWriter;
 
