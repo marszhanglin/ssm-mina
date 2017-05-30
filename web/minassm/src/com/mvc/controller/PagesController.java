@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mvc.service.SessionManagerService;
 
 @Controller
-public class PagesController  { 
+public class PagesController  extends BaseController{ 
 	
 	@Resource
 	private SessionManagerService sessionManagerService;
@@ -28,11 +28,23 @@ public class PagesController  {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/index")
+	@RequestMapping("/index") 
 	public String index(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug(request.getRequestURI()); 
 		return "/index"; 
+	} 
+	/**
+	 * 获取主界面
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/login") 
+	public String login(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info(request.getRequestURI()); 
+		return MINA_BASEPATH+"/login"; 
 	} 
 	
 	/**
