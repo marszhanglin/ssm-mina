@@ -23,14 +23,14 @@ var Login = function () {
 
 	            messages: {
 	                username: {
-	                    required: "Username is required."
+	                    required: "请输入用户名."
 	                },
 	                password: {
-	                    required: "Password is required."
+	                    required: "请输入密码."
 	                }
 	            },
 
-	            invalidHandler: function (event, validator) { //display error alert on form submit   
+	            invalidHandler: function (event, validator) { // 验证失败 ：display error alert on form submit   
 	                $('.alert-error', $('.login-form')).show();
 	            },
 
@@ -49,21 +49,46 @@ var Login = function () {
 	            },
 				//submit点击监听
 	            submitHandler: function (form) {
-	            	console.log(from);
+	            	console.log(form);
+	            	console.log(basePath);
+	            	
+	            	loginPost(basePath+"login/validate",".login-form");
 	                //window.location.href = "index.html";
 	            }
 	        });
 			
-	        //回车监听  触发登录
+	        //回车监听  焦点在input时  触发登录
 	        $('.login-form input').keypress(function (e) {
+	        	console.log(e);
 	            if (e.which == 13) {
-	                if ($('.login-form').validate().form()) {
+	            	console.log(1);
+	            	$('.login-form').valid();
+	            	console.log(2);
+	                /*if ($('.login-form').validate().form()) {
 	                    //window.location.href = "index.html";
-	                }
+	                }*/
 	                return false;
 	            }
 	        });
-
+			
+	        
+	        function loginPost(url,form_filter ){
+	        	var d = {};
+			    var t = $(form_filter).serializeArray();
+			    $.each(t, function() {
+			      d[this.name] = this.value;
+			    });
+			    console.log(JSON.stringify(d));
+	        	console.log($(form_filter));
+	        	$.post(url, d, function(result) {
+	        		console.log(result);
+                 if (result.success) {
+								window.location.href = "mina/index.jsp";
+							} else {
+							}
+            }, 'json');
+	        }
+	        
 	        $('.forget-form').validate({
 	            errorElement: 'label', //default input error message container
 	            errorClass: 'help-inline', // default input error message class
@@ -101,14 +126,16 @@ var Login = function () {
 	            },
 
 	            submitHandler: function (form) {
-	                window.location.href = "index.html";
+	            	console.log(".forget-form on submitHandler");
+	                //window.location.href = "index.html";
 	            }
 	        });
 
 	        $('.forget-form input').keypress(function (e) {
 	            if (e.which == 13) {
 	                if ($('.forget-form').validate().form()) {
-	                    window.location.href = "index.html";
+	                	console.log(".forget-form input on keypress");
+	                    //window.location.href = "index.html";
 	                }
 	                return false;
 	            }

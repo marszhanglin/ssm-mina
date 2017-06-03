@@ -1,2 +1,8 @@
 参考：http://www.cnblogs.com/ada-zheng/p/3875773.html
 jquery.validate
+
+
+可优化：
+http://www.cnblogs.com/linjiqin/p/3431835.html
+
+

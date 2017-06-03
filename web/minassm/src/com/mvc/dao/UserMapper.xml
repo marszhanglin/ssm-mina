@@ -114,4 +114,18 @@
       iosession_id = #{iosessionId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  
+  
+  
+  
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where name = #{name,jdbcType=INTEGER}
+  </select>
+  
+  
 </mapper>

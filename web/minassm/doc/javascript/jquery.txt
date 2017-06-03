@@ -1,0 +1,12 @@
+$.post(url, $("#form").form("getData"), function(result) {
+                 if (result.success) {
+                     //触发更新完成事件
+					 parent.evecom.v.events.trigger({"type" : "updated", "data" : result.item});
+					 //关闭页面
+					 parent.evecom.closeActionWindow();	
+                     $.easyui.messager.show(result.msg);
+                } else {
+                    $.messager.alert('<font color=black>错误</font>',
+                        result.msg, 'error');
+                }
+            }, 'json');

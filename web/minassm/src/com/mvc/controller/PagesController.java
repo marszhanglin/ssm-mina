@@ -1,5 +1,8 @@
 package com.mvc.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
 import com.mvc.service.SessionManagerService;
 
 @Controller
@@ -19,7 +23,6 @@ public class PagesController  extends BaseController{
     /**
      * 日志记录
      */
-    @SuppressWarnings("unused")
     private static Logger log = Logger.getLogger(PagesController.class);
     
 	/**
@@ -46,6 +49,25 @@ public class PagesController  extends BaseController{
 		log.info(request.getRequestURI()); 
 		return MINA_BASEPATH+"/login"; 
 	} 
+	
+	/**
+	 * 获取主界面
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/loginValidate") 
+	public Map loginValidate(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info(request.getRequestURI());  
+		log.info(new Gson().toJson(request.getParameterMap())); 
+		String username = request.getParameter("username");
+		String password = request.getParameter("password"); 
+		
+		Map map=new HashMap<String, Object>();
+		map.put("success", true);
+		return map; 
+	}
 	
 	/**
 	 * 用户列表界面

@@ -19,8 +19,12 @@ insert into users(name,password,email,birthday) values('name_no_002','123456','n
 insert into users(name,password,email,birthday) values('name_no_003','123456','name_no_003@qq.com','1990-12-03');
 
 --增加一个字段 存储iosession_id
-alter table users add iosession_id varchar(128); 
+--alter table users add iosession_id varchar(128); 
 
+--参考：http://blog.csdn.net/arkblue/article/details/9070797 
+--增加用户名及邮箱唯一约束   show create table users;
+alter table users add unique key `name` ( name);
+alter table users add unique key `email` ( email);
 
 
 
