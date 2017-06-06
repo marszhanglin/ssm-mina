@@ -262,9 +262,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 				</li> 
 				
-				<li class="last ">
+				<li class="last change_iframe " data="{url:'users/list',title:'用户管理',discription:'用户信息管理'}">
 
-					<a href="charts.html">
+					<a href="#">
 
 					<i class="icon-bar-chart"></i> 
 
@@ -320,9 +320,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					
 						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 
-						<h3 class="page-title">
+						<h3 id="title" class="page-title">
 
-							Dashboard <small>statistics and more</small>
+							用户管理 <small>用户信息管理</small>
 
 						</h3>
 
@@ -332,13 +332,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 								<i class="icon-home"></i>
 
-								<a href="index.html">Home</a> 
+								<a href="#">Home</a> 
 
 								<i class="icon-angle-right"></i>
 
 							</li>
 
-							<li><a href="#">Dashboard</a></li>
+							<li><a id="breadcrumb_2" href="#">用户管理</a></li>
 
 							<li class="pull-right no-text-shadow">
 
@@ -367,9 +367,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 			</div>
 
-			<div id="dashboard" > 
+			<div id="dashboard" class="row-fluid"> 
 			<!-- 无边框：frameborder="0" 参考：http://www.cnblogs.com/kingboy2008/archive/2011/05/10/2055545.html -->
-			<iframe src="<%=basePath %>users/list"  frameborder="0" style="margin-left: 19px;width: 1080px;height: 640px;"></iframe>
+			<!--  -->
+			<iframe id="base_iframe" src="<%=basePath %>users/list"  style="margin-left: 19px;width: 1080px;height: 640px;" frameborder="0"  ></iframe>
 			</div>
 			
 			
@@ -449,6 +450,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 	<script src="<%=basePath%>media/js/app.js" type="text/javascript"></script>     
 
+	<script src="<%=basePath%>media/js/index_cus.js" type="text/javascript"></script> 
 	<!-- END PAGE LEVEL SCRIPTS -->  
 
 	<script>
@@ -456,15 +458,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		jQuery(document).ready(function() {     
 		
 		   App.init(); // initlayout and core plugins
-		
+		  
+		   Index_cus.init();
+		   
 		});
 
 	</script>
 
 	<!-- END JAVASCRIPTS -->
 
-<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script></body>
+<%--<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script></body>
 
-<!-- END BODY -->
+--%><!-- END BODY -->
 
 </html>

@@ -4,7 +4,7 @@ var TableManaged = function () {
 
         //main function to initiate the module
         init: function () {
-            
+            //检验下是是否引入了dataTable这个js
             if (!jQuery().dataTable) {
                 return;
             }

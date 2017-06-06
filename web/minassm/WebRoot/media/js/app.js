@@ -317,7 +317,9 @@ var App = function () {
                 if (body.hasClass('page-sidebar-fixed')) {
                     sidebar.css('width', '');
                 }
+                //$("#base_iframe").css("width","1080px");
             } else {
+            	//$("#base_iframe").css("width","1275px");
                 body.addClass("page-sidebar-closed");
             }
             runResponsiveHandlers();

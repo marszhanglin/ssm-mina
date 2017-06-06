@@ -60,10 +60,8 @@ var Login = function () {
 	        //回车监听  焦点在input时  触发登录
 	        $('.login-form input').keypress(function (e) {
 	        	console.log(e);
-	            if (e.which == 13) {
-	            	console.log(1);
-	            	$('.login-form').valid();
-	            	console.log(2);
+	            if (e.which == 13) { 
+	            	$('.login-form').valid(); 
 	                /*if ($('.login-form').validate().form()) {
 	                    //window.location.href = "index.html";
 	                }*/
