@@ -1,4 +1,4 @@
---mysql -uroot -p    --show databases;  
+--mysql -uroot -p    --show databases;     -- use  mybatis_20170524;
 --创建数据库 minassm_1001
 create database  minassm_1001;
 use  minassm_1001;

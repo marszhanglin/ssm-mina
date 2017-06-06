@@ -552,7 +552,10 @@ var App = function () {
             });
         }
     }
-
+	
+    /**
+     * 自定义样式初始化
+     */
     var handleTheme = function () {
 
         var panel = $('.color-panel');
@@ -659,7 +662,7 @@ var App = function () {
 
         // handle theme colors
         var setColor = function (color) {
-            $('#style_color').attr("href", "assets/css/themes/" + color + ".css");
+            $('#style_color').attr("href", basePath+"media/css/themes/" + color + ".css");
             $.cookie('style_color', color);                
         }
 

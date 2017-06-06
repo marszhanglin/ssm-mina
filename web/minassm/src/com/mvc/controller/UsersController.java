@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.mvc.service.UserService;
@@ -53,6 +54,22 @@ public class UsersController  extends BaseController{
 		}
 		map.put("msg", msg);
 		return map; 
+	}
+	
+	
+	/**
+	 * 获取用户列表
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/list") 
+	public ModelAndView list(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();
+		log.info(request.getRequestURI());  
+		log.info(new Gson().toJson(request.getParameterMap())); 
+		return new ModelAndView(MINA_BASEPATH+"/users/list"); 
 	}
 	
 }

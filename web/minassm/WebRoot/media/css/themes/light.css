@@ -72,7 +72,7 @@ ul.page-sidebar-menu > li.active > a .selected {
   top:0px;
   width: 7px;
   height: 39px;
-  background-image: url("../../img/sidebar-menu-arrow-green.png");
+  background-image: url("../../image/sidebar-menu-arrow-green.png");
 }  
 ul.page-sidebar-menu > li.active i {
   color: #fff !important;
@@ -144,14 +144,14 @@ ul.page-sidebar-menu ul.sub-menu > li > a i {
   border-bottom: 1px solid #e2e2e2 !important;
 }
 .page-sidebar .sidebar-search .submit {
-  background-image: url(../../img/search-icon-white.png);
+  background-image: url(../../image/search-icon-white.png);
 }
 
 /***
 Sidebar toggler
 ***/
 .sidebar-toggler {  
-  background-image: url(../../img/sidebar-toggler-light.jpg);
+  background-image: url(../../image/sidebar-toggler-light.jpg);
   background-color: #333;
 }
 /* search box bg color on expanded */
@@ -159,7 +159,7 @@ Sidebar toggler
   background-color: #fbfbfb !important;
 }
 .page-sidebar-closed .page-sidebar .sidebar-search.open .remove {  
-  background-image: url("../../img/sidebar-search-close-light.png");
+  background-image: url("../../image/sidebar-search-close-light.png");
 }
 /* sub menu bg color on hover menu item */
 .page-sidebar-closed ul.page-sidebar-menu > li:hover .sub-menu {
@@ -170,11 +170,11 @@ Horizontal Menu(new in v1.2)
 ***/
 /*search*/
 .header .hor-menu .hor-menu-search-form-toggler {
-  background: #363636 url(../../img/hor-menu-search.png) no-repeat center;
+  background: #363636 url(../../image/hor-menu-search.png) no-repeat center;
 }
 
 .header .hor-menu .hor-menu-search-form-toggler.hide {
-  background: #363636 url(../../img/hor-menu-search-close.png) no-repeat center;
+  background: #363636 url(../../image/hor-menu-search-close.png) no-repeat center;
 }
 
 .header .hor-menu .search-form {
@@ -183,7 +183,7 @@ Horizontal Menu(new in v1.2)
 
 .header .hor-menu .search-form .btn {
   color: #999;
-  background: #3b3b3b url(../../img/search-icon.png) no-repeat center;
+  background: #3b3b3b url(../../image/search-icon.png) no-repeat center;
 }
 
 .header .hor-menu .search-form form input {

@@ -156,25 +156,25 @@ var Index = function () {
                     }, {
                         title: 'Meeting',
                         start: new Date(y, m, d, 10, 30),
-                        allDay: false,
+                        allDay: false
                     }, {
                         title: 'Lunch',
                         start: new Date(y, m, d, 12, 0),
                         end: new Date(y, m, d, 14, 0),
                         backgroundColor: App.getLayoutColorCode('grey'),
-                        allDay: false,
+                        allDay: false
                     }, {
                         title: 'Birthday Party',
                         start: new Date(y, m, d + 1, 19, 0),
                         end: new Date(y, m, d + 1, 22, 30),
                         backgroundColor: App.getLayoutColorCode('purple'),
-                        allDay: false,
+                        allDay: false
                     }, {
                         title: 'Click for Google',
                         start: new Date(y, m, 28),
                         end: new Date(y, m, 29),
                         backgroundColor: App.getLayoutColorCode('yellow'),
-                        url: 'http://google.com/',
+                        url: 'http://google.com/'
                     }
                 ]
             });
@@ -215,7 +215,7 @@ var Index = function () {
                     left: x - 40,
                     border: '0px solid #ccc',
                     padding: '2px 6px',
-                    'background-color': '#fff',
+                    'background-color': '#fff'
                 }).appendTo("body").fadeIn(200);
             }
 

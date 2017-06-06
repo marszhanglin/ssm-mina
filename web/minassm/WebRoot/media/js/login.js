@@ -52,7 +52,7 @@ var Login = function () {
 	            	console.log(form);
 	            	console.log(basePath);
 	            	
-	            	loginPost(basePath+"login/validate",".login-form");
+	            	loginPost(basePath+"users/validate",".login-form");
 	                //window.location.href = "index.html";
 	            }
 	        });
@@ -85,6 +85,7 @@ var Login = function () {
                  if (result.success) {
 								window.location.href = "mina/index.jsp";
 							} else {
+								alert(result.msg);
 							}
             }, 'json');
 	        }
