@@ -18,8 +18,32 @@
 	<!-- 使用注解的包，包括子集 -->
 	<context:component-scan base-package="com.mvc.controller" />
     
-	<!-- 方式一：ContentNegotiatingViewResolver统一支配  start -->
-	    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">    
+	<!-- 方式一：ContentNegotiatingViewResolver统一支配  start  -->
+	
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="mediaTypes">
+            <map>
+                <entry key="html" value="text/html"/>
+                <entry key="json" value="application/json"/>
+                <entry key="xml" value="application/xml" /> 
+            </map>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/" /> <!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+            </list>
+        </property>
+    </bean>
+	
+	   <!-- 有问题: <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">    
 		    <property name="mediaTypes">    
 		      <map>    
 		        <entry key="html" value="text/html"/>    
@@ -40,7 +64,7 @@
 		            <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>  
 		        </list>  
 		    </property>  
-		</bean>  
+		</bean>   -->
 	<!-- end(方式一) -->
 	
 	<!-- 方式二： ViewResolver不同配置 单独来  start--> 

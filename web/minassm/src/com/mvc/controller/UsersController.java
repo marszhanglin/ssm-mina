@@ -1,6 +1,7 @@
 package com.mvc.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.mvc.model.User;
 import com.mvc.service.UserService;
 
 @Controller
@@ -71,5 +73,27 @@ public class UsersController  extends BaseController{
 		log.info(new Gson().toJson(request.getParameterMap())); 
 		return new ModelAndView(MINA_BASEPATH+"/users/list"); 
 	}
+	
+	/**
+	 * 获取用户列表
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/listdata") 
+	public Map listdata(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();
+		log.info(request.getRequestURI());  
+		log.info(new Gson().toJson(request.getParameterMap())); 
+		List<User> users= userService.getUsers();
+		log.info(new Gson().toJson(users));
+		map.put("list",users );
+		map.put("pageCount", 102);
+		map.put("CurrentPage", 1);
+		return map; 
+	}
+	
+	
 	
 }

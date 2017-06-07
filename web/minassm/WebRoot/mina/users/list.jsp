@@ -69,7 +69,30 @@
 
 						<div class="portlet box light-grey">   
 						 	
+						 	<!-- 参考：http://www.runoob.com/bootstrap/bootstrap-tables.html -->
+						 	<table class="table">
+								  <%--<caption>上下文表格布局</caption>
+								  --%><thead>
+								    <tr>
+								      <th>账号</th>
+								      <th>邮箱</th>
+								      <th>创建日期</th></tr>
+								  </thead>
+								  <tbody id="table_content">
+								  
+								  
+								    <!-- <tr data="[object" object]="">
+								    <td>name_no_001</td>
+								    <td>name_no_001@qq.com</td>
+								    <td>Sat May 27 2017 23:24:11 GMT+0800 (中国标准时间)</td>
+								    </tr>
+								      -->
+								  </tbody>
+								</table>
+						 	
 						</div>
+						
+						
 
 						<!-- END EXAMPLE TABLE PORTLET-->
 
@@ -87,6 +110,8 @@
 	<!-- BEGIN CORE PLUGINS -->
 
 	<script src="<%=basePath%>media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+
+	<script src="<%=basePath%>media/js/jquery.json-2.4.min.js" type="text/javascript"></script>
 
 	<script src="<%=basePath%>media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 

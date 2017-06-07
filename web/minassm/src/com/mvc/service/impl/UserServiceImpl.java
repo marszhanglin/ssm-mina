@@ -1,5 +1,7 @@
 package com.mvc.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,13 @@ public class UserServiceImpl implements UserService {
 	public boolean isUserExit(String username) {
 		User user=userMapper.selectByName(username);
 		return null!=user;
+	}
+
+	@Override
+	public List<User> getUsers() {
+		
+		
+		return userMapper.selectAll();
 	}
 
 }

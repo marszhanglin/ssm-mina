@@ -127,5 +127,9 @@
     where name = #{name,jdbcType=INTEGER}
   </select>
   
-  
+    <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from users where 1=1
+  </select>
 </mapper>

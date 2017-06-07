@@ -1,5 +1,7 @@
 package com.mvc.dao;
 
+import java.util.List;
+
 import com.mvc.model.User;
 
 public interface UserMapper {
@@ -16,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
     
     User selectByName(String name);
+    
+    List<User> selectAll();
 }
