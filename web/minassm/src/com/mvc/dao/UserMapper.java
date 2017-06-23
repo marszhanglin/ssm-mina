@@ -20,4 +20,6 @@ public interface UserMapper {
     User selectByName(String name);
     
     List<User> selectAll();
+    
+	List<User> findPageByPage(Integer limit, Integer row);
 }

@@ -15,4 +15,7 @@ public interface UserService {
 	
 	public List<User> getUsers();
 	
+	public List<User> findPageByPage(int page,int row);
+	
+	
 }

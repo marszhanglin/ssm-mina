@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -80,17 +81,13 @@ public class UsersController  extends BaseController{
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/listdata") 
-	public Map listdata(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		Map<String, Object> map=new HashMap<String, Object>();
-		log.info(request.getRequestURI());  
-		log.info(new Gson().toJson(request.getParameterMap())); 
-		List<User> users= userService.getUsers();
-		log.info(new Gson().toJson(users));
+	@RequestMapping("/grid") 
+	public Map<String,Object> grid(@RequestParam("currentpage") int currentpage,@RequestParam("rows") int rows ) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>(); 
+		List<User> users= userService.findPageByPage(currentpage, rows);  
 		map.put("list",users );
-		map.put("pageCount", 102);
-		map.put("CurrentPage", 1);
+		map.put("pagecount", 5);
+		map.put("currentpage", 1);
 		return map; 
 	}
 	

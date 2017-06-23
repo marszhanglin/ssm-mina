@@ -37,9 +37,9 @@
 
 	<link href="<%=basePath%>media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
 
-	<link href="<%=basePath%>media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<%--<link href="<%=basePath%>media/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
 
-	<link href="<%=basePath%>media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	--%><link href="<%=basePath%>media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
 
 	<!-- END GLOBAL MANDATORY STYLES -->
 
@@ -91,7 +91,7 @@
 								</table>
 						 	
 						</div>
-						
+						<div id="page"></div>
 						
 
 						<!-- END EXAMPLE TABLE PORTLET-->
@@ -139,7 +139,7 @@
 
 	<!-- END CORE PLUGINS -->
 
-	<!-- BEGIN PAGE LEVEL PLUGINS bootstrapt分页插件依赖jquery1.8与bootstrap.css 参考：http://www.cnblogs.com/xmfdsh/p/4041187.html-->
+	<!-- BEGIN PAGE LEVEL PLUGINS bootstrapt分页插件依赖jquery1.8与bootstrap.css 参考：bootstrap-paginator-->
 	
 	<script type="text/javascript" src="<%=basePath%>media/js/bootstrap-paginator.min.js"></script>
 

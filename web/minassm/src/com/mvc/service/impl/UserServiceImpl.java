@@ -38,10 +38,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsers() {
-		
-		
+	public List<User> getUsers() { 
 		return userMapper.selectAll();
+	}
+
+	@Override
+	public List<User> findPageByPage(int page, int row) {
+		int limit = 0;
+		if(page>0){
+			limit = (page-1);
+		}
+		return userMapper.findPageByPage(limit,row);
 	}
 
 }

@@ -1,0 +1,33 @@
+
+--------------------------------------------------------------------------
+案例表：
+| users | CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) DEFAULT NULL,
+  `password` varchar(40) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 |
+
+<1>、百万或千万数据分页优化思路：
+1、 一般菜鸟会这么写：  SELECT * FROM users ORDER BY id LIMIT 1000000, 10; 
+弊端：数据过十万,慢的要死  
+2、老司机会这么写：SELECT * FROM users WHERE id >= (SELECT id FROM users LIMIT 1000000, 1) LIMIT 10; 
+3、发烧+：SELECT id FROM users WHERE id >= (SELECT id FROM users LIMIT 1000000, 1) LIMIT 10; 
+4、发烧++:SELECT id FROM users WHERE id BETWEEN 1000000 and 1000010; 
+弊端： id 不是连续的就有问题
+5、发烧+++:SELECT id FROM users WHERE id in (1000000,1000006,1000007,1000008,1000009); 
+弊端： id你怎么知道id是这几个  这是个问题
+
+总结：1、不要用* 2、尽量用索引  3、尽量比大小不要用order by
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
