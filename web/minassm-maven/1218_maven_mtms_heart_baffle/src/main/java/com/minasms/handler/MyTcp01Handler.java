@@ -16,6 +16,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 	public void sessionCreated(IoSession session) throws Exception {
 		System.out.println(session.getId()+":sessionCreated");
 		SessionManagerServiceImpl.getInstance().sessionCreated(session);
+
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DISCONNECT.equals(typeString)) {
 			System.out.println(session.getId()+":断连["+smsObject.getBody()+"]");
 		}
-		
+
 		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "i am service , "+smsObject.getBody()));
 		
 		//短连接   一连上来就关闭 

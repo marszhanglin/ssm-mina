@@ -79,8 +79,53 @@
 	
 	
 	<!-- 短信推送 -->
-	
-	
-	
+
+
+	<bean id="sms-handler" class="mars.mina.mtms_heart_buffle.handler.HeartHandler" />
+
+
+	<bean id="sms-filterchainbuilder"
+		  class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="executor">
+					<bean class="org.apache.mina.filter.executor.ExecutorFilter" />
+				</entry>
+
+				<entry key="codec">
+					<bean class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+						<constructor-arg>
+							<!-- 自定义的编解码处理工厂 -->
+							<bean class="mars.mina.mtms_heart_buffle.codec.MtmsHeartCodecFactory" >
+
+							</bean>
+							<!-- mina提供的编解码处理工厂  消息对象是一行string对象-->
+							<!-- <bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" >
+
+							</bean> -->
+
+						</constructor-arg>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- mina的ioAcceptor -->
+	<bean id="smsioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		  init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":10000" />
+		<property name="handler" ref="sms-handler" />
+		<property name="filterChainBuilder" ref="sms-filterchainbuilder" />
+		<property name="reuseAddress" value="true" />
+	</bean>
+
+	<!-- mtms心跳挡板 -->
+	<!-- 设置mina超时关闭时间     -->
+	<!-- （客户端心跳设成60秒）60*3+10秒  190秒后没收到心跳连接调用sessionIdle()  -->
+	<!-- tomcat重启是不会影响客户端的连接照样可以发数据?   -->
+	<bean id="getSessionConfigsms" factory-bean="smsioAcceptor" factory-method="getSessionConfig">
+		<property name="readerIdleTime" value="1800"></property>
+	</bean>
     
 </beans>
