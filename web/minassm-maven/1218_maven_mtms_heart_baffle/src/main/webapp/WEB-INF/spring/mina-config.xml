@@ -69,14 +69,18 @@
 		<property name="reuseAddress" value="true" />
 	</bean>
 	
-	
-	
-	
+	<!-- mtms心跳挡板 -->
 	<!-- 设置mina超时关闭时间     -->
 	<!-- （客户端心跳设成60秒）60*3+10秒  190秒后没收到心跳连接调用sessionIdle()  -->
 	<!-- tomcat重启是不会影响客户端的连接照样可以发数据?   -->
 	<bean id="getSessionConfig" factory-bean="ioAcceptor" factory-method="getSessionConfig">
 		<property name="readerIdleTime" value="1800"></property>
 	</bean>
+	
+	
+	<!-- 短信推送 -->
+	
+	
+	
     
 </beans>
