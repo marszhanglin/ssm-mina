@@ -5,8 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+
+/*
 /**
- * 服务启动入口
+ * <B style="color:#00f"> 系统启动服务</B>
+ * <br>
+ *
+ * @author zhanglin  2017/3/25
  */
 public class BootStartService extends Service {
 

@@ -2,7 +2,7 @@ package mina.marszhang.minatcp02.common;
 
 import java.util.Observable;
 /**
- * <B style="color:#00f"> </B>
+ * <B style="color:#00f"> 观察者</B>
  * <br>
  * @author zhanglin
  */

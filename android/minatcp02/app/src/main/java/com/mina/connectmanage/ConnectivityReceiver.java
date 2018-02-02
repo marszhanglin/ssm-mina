@@ -22,9 +22,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-/** 
- * A broadcast receiver to handle the changes in network connectiion states.
- *
+/**
+ *  网络变化广播接收器
  */
 public class ConnectivityReceiver extends BroadcastReceiver {
 

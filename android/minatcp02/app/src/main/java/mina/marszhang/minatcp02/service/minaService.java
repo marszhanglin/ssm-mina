@@ -22,7 +22,9 @@ import java.util.Locale;
 
 import mina.marszhang.minatcp02.receive.HeartBeatReceive;
 
-
+/**
+ * mima服务类
+ */
 public class MinaService extends Service {
 
     private ConnectivityReceiver mConnectivityReceiver;
