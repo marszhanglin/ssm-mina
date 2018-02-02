@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:jee="http://www.springframework.org/schema/jee"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="    
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">    
+        
+	 <!-- =============================================================== -->
+	<!-- MINA                                                            -->
+	<!-- =============================================================== -->
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+	<property name="customEditors">
+		<map>
+			<!-- 修改这里 -->
+			<entry key="java.net.SocketAddress"
+				value="org.apache.mina.integration.beans.InetSocketAddressEditor">
+			</entry>
+		</map>
+	</property>
+</bean>
+	
+	<!-- 开发者需要编辑的-消息处理器 -->
+	<!-- mtms心跳挡板 -->
+	<bean id="mtms-heart-buffle-handler" class="mars.mina.mtms_heart_buffle.handler.HeartHandler" />
+
+
+	<bean id="mtms-heart-buffle-filterchainbuilder"
+		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="executor">
+					<bean class="org.apache.mina.filter.executor.ExecutorFilter" />
+				</entry>
+				
+				<entry key="codec">
+					<bean class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+						<constructor-arg>
+						<!-- 自定义的编解码处理工厂 -->
+							<bean class="mars.mina.mtms_heart_buffle.codec.MtmsHeartCodecFactory" >
+							 
+							</bean>
+						<!-- mina提供的编解码处理工厂  消息对象是一行string对象-->
+							<!-- <bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" >
+							 
+							</bean> -->
+							
+						</constructor-arg>
+					</bean>
+				</entry>  
+			</map>
+		</property>
+	</bean>
+	
+	<!-- mina的ioAcceptor -->
+	<bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":12306" />
+		<property name="handler" ref="mtms-heart-buffle-handler" />
+		<property name="filterChainBuilder" ref="mtms-heart-buffle-filterchainbuilder" />
+		<property name="reuseAddress" value="true" />
+	</bean>
+	
+	
+	
+	
+	<!-- 设置mina超时关闭时间     -->
+	<!-- （客户端心跳设成60秒）60*3+10秒  190秒后没收到心跳连接调用sessionIdle()  -->
+	<!-- tomcat重启是不会影响客户端的连接照样可以发数据?   -->
+	<bean id="getSessionConfig" factory-bean="ioAcceptor" factory-method="getSessionConfig">
+		<property name="readerIdleTime" value="1800"></property>
+	</bean>
+    
+</beans>

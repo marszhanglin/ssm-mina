@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="1218_maven_mtms_heart_baffle Maven Webapp"
+  id="myeclipse.1513582067145"
+  context-root="/1218_maven_mtms_heart_baffle"
+  j2ee-spec="6.0"
+  archive="1218_maven_mtms_heart_baffle Maven Webapp.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
