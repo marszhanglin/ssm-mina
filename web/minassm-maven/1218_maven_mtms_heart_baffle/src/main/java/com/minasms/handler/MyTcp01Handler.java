@@ -4,19 +4,21 @@ import org.apache.http.util.TextUtils;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.minasms.codec.sms.SmsObject;
 import com.minasms.connectmanage.ConnectType;
-import com.mvc.service.impl.SessionManagerServiceImpl;
+import com.mvc.manager.UserSessionManager;
 
 public class MyTcp01Handler extends IoHandlerAdapter {
-
+	
+	@Autowired
+	private UserSessionManager userSessionManager;
+	
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 		System.out.println(session.getId()+":sessionCreated");
-		SessionManagerServiceImpl.getInstance().sessionCreated(session);
-
 	}
 
 	@Override
@@ -24,11 +26,11 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		System.out.println(session.getId()+":sessionOpened");
 
 	}
-
+	
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		System.out.println(session.getId()+":sessionClosed");
-
+		System.out.println(session.getId()+":sessionClosed"); 
+		userSessionManager.saveUserStatus(session,"02");
 	}
 
 	@Override
@@ -36,6 +38,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 			throws Exception {
 		System.out.println(session.getId()+":sessionIdle"+",status:"+status.toString());
 		session.closeOnFlush();
+		userSessionManager.saveUserStatus(session,"01");
 	}
 
 	@Override
@@ -63,9 +66,17 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 
 		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "i am service , "+smsObject.getBody()));
 		
+		
+		userSessionManager.saveSmsLog(session, smsObject);
+		
+		userSessionManager.saveUserOnlineStatus(session, smsObject);
+		
+		
+		
 		//短连接   一连上来就关闭 
 		//session.closeOnFlush();
 	}
+	
 	
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
@@ -76,7 +87,6 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 	@Override
 	public void inputClosed(IoSession session) throws Exception {
 		System.out.println(session.getId()+":inputClosed"); 
-		SessionManagerServiceImpl.getInstance().sessionRemoved(session);
 		super.inputClosed(session);
 	}
 	

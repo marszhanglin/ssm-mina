@@ -1,6 +1,7 @@
 package mina.marszhang.minatcp02;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 import mina.marszhang.minatcp02.exception.CrashHandler;
@@ -14,6 +15,7 @@ public class App extends Application {
 
     public static boolean WAKEUP =false;
 
+    private static Context instance;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,5 +24,10 @@ public class App extends Application {
         startService(i1);
 
         CrashHandler.getInstance().init(this);
+        instance = this;
+    }
+
+    public static Context getContext(){
+        return instance;
     }
 }

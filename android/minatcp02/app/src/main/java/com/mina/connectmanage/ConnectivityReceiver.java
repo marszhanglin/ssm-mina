@@ -22,10 +22,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.mina.MinaController;
+import com.mina.util.NetWorkUtils;
+
 /**
  *  网络变化广播接收器
  */
 public class ConnectivityReceiver extends BroadcastReceiver {
+
+    public static boolean isNetworkAvailable =true;
 
     public ConnectivityReceiver() {
 
@@ -36,23 +41,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         Log.d("$$$$$$", "ConnectivityReceiver.onReceive()...");
         String action = intent.getAction();
         Log.d("$$$$$$", "action=" + action);
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if (networkInfo != null) {
-            Log.d("$$$$$$", "Network Type  = " + networkInfo.getTypeName());
-            Log.d("$$$$$$", "Network State = " + networkInfo.getState());
-            if (networkInfo.isConnected()) {
-                Log.i("$$$$$$", "Network connected");
-
-            }
-        } else {
-            Log.e("$$$$$$", "Network unavailable");
-            //notificationService.disconnect();
-        }
+        NetWorkUtils.isNetWorkAvailable(context);
     }
 
 }

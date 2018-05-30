@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User user) {
-		
+		userMapper.insert(user);
 	}
 
 	@Override
@@ -46,9 +46,20 @@ public class UserServiceImpl implements UserService {
 	public List<User> findPageByPage(int page, int row) {
 		int limit = 0;
 		if(page>0){
-			limit = (page-1);
+			limit = (page-1)*row;
 		}
 		return userMapper.findPageByPage(limit,row);
+	}
+
+	@Override
+	public int count() { 
+		return userMapper.count();
+	}
+
+	@Override
+	public User findUserByName(String name) {
+		User user=userMapper.selectByName(name);
+		return user;
 	}
 
 }

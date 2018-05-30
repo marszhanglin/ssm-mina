@@ -15,11 +15,11 @@ import com.mina.MinaController;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectConfig;
 import com.mina.connectmanage.ConnectivityReceiver;
-import com.mina.connectmanage.MinaMessageInterface;
 
 import java.util.Calendar;
 import java.util.Locale;
 
+import mina.marszhang.minatcp02.common.Const;
 import mina.marszhang.minatcp02.receive.HeartBeatReceive;
 
 /**
@@ -69,13 +69,13 @@ public class MinaService extends Service {
 
     private void initMina() {
         mMinaController =  MinaController.getINSTANCE();
-        mMinaController.setConfig(new ConnectConfig(new MinaMessageInterface() {
+        /*mMinaController.setConfig(new ConnectConfig(new MinaMessageInterface() {
             @Override
             public void messageReceived(Object object) {
                 //语言播报
                 String input= ((SmsObject)object).getBody();
                 Log.d("$$$$$$","语音播报内容："+input);
-                mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
+                //mTextToSpeech.speak(input, TextToSpeech.QUEUE_ADD, null);
 
             }
 
@@ -83,7 +83,8 @@ public class MinaService extends Service {
             public void systemMsg(String object) {
 
             }
-        }));
+        }));*/
+        mMinaController.setConfig(new ConnectConfig(Const.MINA_IP,Const.MINA_PORT));
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mvc.dao.SmsLogMapper" >
+  <resultMap id="BaseResultMap" type="com.mvc.model.SmsLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="netonline_status" property="netonlineStatus" jdbcType="VARCHAR" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="session_id" property="sessionId" jdbcType="VARCHAR" />
+    <result column="connect_type" property="connectType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="body" property="body" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, netonline_status, sender, receiver, session_id, connect_type, create_time, body
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sms_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sms_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mvc.model.SmsLog" >
+    insert into sms_log (id, netonline_status, sender, 
+      receiver, session_id, connect_type, 
+      create_time, body)
+    values (#{id,jdbcType=INTEGER}, #{netonlineStatus,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR}, 
+      #{receiver,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR}, #{connectType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{body,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mvc.model.SmsLog" >
+    insert into sms_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="netonlineStatus != null" >
+        netonline_status,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="sessionId != null" >
+        session_id,
+      </if>
+      <if test="connectType != null" >
+        connect_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="body != null" >
+        body,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="netonlineStatus != null" >
+        #{netonlineStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null" >
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="connectType != null" >
+        #{connectType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="body != null" >
+        #{body,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mvc.model.SmsLog" >
+    update sms_log
+    <set >
+      <if test="netonlineStatus != null" >
+        netonline_status = #{netonlineStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null" >
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="connectType != null" >
+        connect_type = #{connectType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="body != null" >
+        body = #{body,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mvc.model.SmsLog" >
+    update sms_log
+    set netonline_status = #{netonlineStatus,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      session_id = #{sessionId,jdbcType=VARCHAR},
+      connect_type = #{connectType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      body = #{body,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

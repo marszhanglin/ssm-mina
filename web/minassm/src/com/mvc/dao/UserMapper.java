@@ -22,4 +22,6 @@ public interface UserMapper {
     List<User> selectAll();
     
 	List<User> findPageByPage(Integer limit, Integer row);
+	
+	int count();
 }

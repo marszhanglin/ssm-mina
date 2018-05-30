@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Uimaker CMS 网站内容管理系统</title>
+<link rel="stylesheet" type="text/css" href="../css/admin_style.css" />
+<link rel="stylesheet" type="text/css" href="../css/skins/tpphp.css" />
+<script src="../js/jquery-1.4.4.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/artDialog.js"></script>
+<script>
+function openMsgWindow() {
+	art.dialog({
+		id:'msgDialog',
+		title: '提示信息',
+		lock:false,
+		fixed:true,
+		width:300,
+		height:100,
+		ok: function(){
+			this.title('成功提示！').content('操作成功！').time(2);
+			return false;
+		 },
+		 cancel: function(){
+			
+			return true;
+		 },
+		content: "<div style='line-height:25px'>您有新的站内信<Br><a href=\"http://www.uimaker.com\">点此阅读</a></div>"
+	});
+}
+</script>
+</head>
+<body style="overflow:hidden;">
+<div class="top">
+	<div class="top_about">	
+		<a href="#" class="help1" id="btn2" onclick="openMsgWindow()">使用帮助</a>
+		<a href="#" class="help2">关于</a>
+	</div>
+	<div class="admin_logo">
+		<img src="../images/admin_logo.jpg">
+	</div>
+	<div class="top_nav">
+			<ul>
+				<li><a href="#" >后台首页</a></li>
+				<li><a href="#" class="selected" >用户管理</a></li>
+				<li><a href="#">菜单设置</a></li>
+				<li><a href="#">文章管理</a></li>
+				<li><a href="#">采集设置</a></li>
+				<li><a href="#">广告管理</a></li>
+				<li><a href="#">数据管理</a></li>
+				<li><a href="#">用户管理</a></li>
+				<li><a href="#">系统设置</a></li>
+			</ul>
+	</div>
+	<div class="top_member">
+	欢迎您，Admin | <a href="#">帐号管理</a> | <a href="#">充值</a> | <a href="#">编辑</a> | <a href="#">2条信息</a>
+	</div>
+</div>
+<div class="side_switch" id="side_switch">
+</div>
+<div class="side_switchl" id="side_switchl">
+</div>
+<div class="left">
+	<div class="member_info"><div class="member_ico"><img src="../images/a.png" width="43" height="43"></div><a class="system_a" href="">系统设置</a><a href="" class="system_log">注销</a><a href="" class="system_logout">退出</a></div>
+	<div class="left_title">常用功能操作</div>
+	<ul class="side">
+		<li><a href="#">用户管理</a></li>
+		<li><a href="#" class="selected">在线状态</a></li>
+		<li><a href="#">分组管理</a></li>
+		<li><a href="#">消息发布</a></li>
+		<li><a href="#">点对点</a></li>
+		<li><a href="#">群聊分组</a></li>
+	</ul>
+	<ul class="side catsub">
+				<li class="feed"><a href="http://www.uimaker.com">网站订阅查看</a></li>
+				<li class="side_about"><a href="#">版权声明</a></li>
+	</ul>
+</div>
+<div class="right">
+<IFRAME style="OVERFLOW: visible" id="main" name="main" src="table.html" frameBorder=0 width="100%" scrolling="yes" height="100%"></IFRAME>
+</div>
+</body>
+</html>

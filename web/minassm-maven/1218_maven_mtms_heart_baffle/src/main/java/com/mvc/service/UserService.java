@@ -9,6 +9,8 @@ public interface UserService {
 	
 	public void save(User user);
 	
+	public void saveOrUpdate(User user);
+	
 	public boolean loginValidate(String name,String password); 
 	
 	public boolean isUserExit(String username);

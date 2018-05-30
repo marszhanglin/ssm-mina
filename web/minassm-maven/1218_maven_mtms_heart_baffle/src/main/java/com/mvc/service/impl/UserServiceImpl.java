@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User user) {
-		
+		userMapper.insert(user);
 	}
 
 	@Override
@@ -49,6 +49,22 @@ public class UserServiceImpl implements UserService {
 			limit = (page-1);
 		}
 		return userMapper.findPageByPage(limit,row);
+	}
+
+	@Override
+	public void saveOrUpdate(User user) {
+		if(null==user){
+			System.out.println("user：为空");
+		}
+		User userdb=userMapper.selectByName(user.getName()); 
+		if(null!=userdb){
+			user.setId(userdb.getId());
+			int size=userMapper.updateByPrimaryKey(user);
+			System.out.println("saveOrUpdate:"+size);
+		}else{
+			int size=userMapper.insert(user);
+			System.out.println("saveOrUpdate:"+size);
+		}
 	}
 
 }

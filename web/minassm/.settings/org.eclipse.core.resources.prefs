@@ -1,5 +1,6 @@
-#Tue May 30 14:45:55 CST 2017
+#Mon Apr 23 16:31:48 CST 2018
 eclipse.preferences.version=1
 encoding//WebRoot/index.jsp=UTF-8
 encoding//config/log4j.properties=UTF-8
+encoding//config/mail_config.properties=UTF-8
 encoding/<project>=utf-8

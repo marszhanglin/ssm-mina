@@ -17,5 +17,8 @@ public interface UserService {
 	
 	public List<User> findPageByPage(int page,int row);
 	
+	public int count();
 	
+	
+	public User findUserByName(String name);
 }

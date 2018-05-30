@@ -5,6 +5,7 @@ import java.util.List;
 import com.mvc.model.User;
 
 public interface UserMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
@@ -15,7 +16,9 @@ public interface UserMapper {
 
     int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
+    int updateByPrimaryKey(User record); 
+    
+    
     
     User selectByName(String name);
     

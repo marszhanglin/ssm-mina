@@ -80,7 +80,8 @@
 	
 	<!-- 静态资源的路由 cache-period="31556926"--> 
 	<mvc:resources mapping="/media/**" location="/media/"  />
-	<mvc:resources mapping="/**.ico" location="/media/image/"  />
+	<mvc:resources mapping="**/**.ico" location="/media/image/"  />
+	<mvc:resources mapping="**/**.js" location="/mina"  />
     <!-- <mvc:resources mapping="/download/**" location="/download/" cache-period="31556926" />
     <mvc:resources mapping="/images/**" location="/images/" cache-period="31556926" />
     <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926" />

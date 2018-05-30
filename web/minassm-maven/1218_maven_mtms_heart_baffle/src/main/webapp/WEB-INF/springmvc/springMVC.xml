@@ -24,7 +24,7 @@
     <!-- Spring MVC配置 -->
     <context:annotation-config />
     <!--扫描注解 -->
-     <context:component-scan base-package="com.mvc" > 
+     <context:component-scan base-package="com.mvc.controller" > 
      <!-- <context:component-scan base-package="com.a" > 
      <context:component-scan base-package="com.b" >  -->
      <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -63,10 +63,11 @@
     
     
     <!-- 对静态资源文件的访问 -->
-    <mvc:resources mapping="/download/**" location="/download/" cache-period="31556926" />
-    <mvc:resources mapping="/images/**" location="/images/" cache-period="31556926" />
-    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926" />
-    <mvc:resources mapping="/css/**" location="/css/" cache-period="31556926" /> 
-    <mvc:resources mapping="/test/**" location="/test/" cache-period="31556926" />
-	<mvc:resources mapping="/node/**" location="/node/" cache-period="31556926" />
+    <mvc:resources mapping="/download/**" location="/source/download/" cache-period="31556926" />
+    <mvc:resources mapping="/images/**" location="/source/images/" cache-period="31556926" />
+    <mvc:resources mapping="/js/**" location="/source/js/" cache-period="31556926" />
+    <mvc:resources mapping="/css/**" location="/source/css/" cache-period="31556926" /> 
+    <mvc:resources mapping="/test/**" location="/source/test/" cache-period="31556926" />
+	<mvc:resources mapping="/node/**" location="/source/node/" cache-period="31556926" />
+	<mvc:resources mapping="/html/**" location="/source/html/" cache-period="31556926" />
 </beans>

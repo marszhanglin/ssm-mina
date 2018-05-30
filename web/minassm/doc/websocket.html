@@ -1,0 +1,58 @@
+<!DOCTYPE html   
+<html xmlns="http://www.w3.org/1999/xhtml" >  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>WebSocket</title>  
+<meta name="keywords" content="Data Url,HTML5,FileReader"/>   
+<script type="text/javascript">
+	
+	function enable(){
+	if ("WebSocket" in window){
+		alert("支持WebSocket");
+	}else{
+		alert("不支持WebSocket");
+	}
+			
+		}
+    
+	var ws= new WebSocket("ws://localhost:10002");
+		function create(){
+				
+				ws.onopen = function()
+								   {
+									  // Web Socket 已连接上，使用 send() 方法发送数据
+									  ws.send("发送数据");
+									  alert("数据发送中...");
+								   };
+				
+			   ws.onmessage = function (evt) 
+								   { 
+									  var received_msg = evt.data;
+									  alert("数据已接收..."+received_msg);
+								   };
+				
+			   ws.onclose = function()
+								   { 
+									  // 关闭 websocket
+									  alert("连接已关闭..."); 
+								   };
+		}
+	
+	
+	
+	function send(){
+		var x=document.getElementById("ed_msg");
+		ws.send(x.value);
+		//alert(x.value);
+	
+	}
+</script>  
+</head>  
+  
+<body>   
+<button onclick="enable();">是否支持webSocket</button></br>
+<button onclick="create();">创建</button></br>
+<input id="ed_msg" ></br>
+<button onclick="send();">发送消息</button>
+</body>  
+</html>  

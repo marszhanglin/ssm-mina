@@ -26,5 +26,7 @@ insert into users(name,password,email,birthday) values('name_no_003','123456','n
 alter table users add unique key `name` ( name);
 alter table users add unique key `email` ( email);
 
-
+-- 添加一个字段
+alter table users add tnc varchar(128);
+alter table users add unique key `tnc` ( tnc);
 

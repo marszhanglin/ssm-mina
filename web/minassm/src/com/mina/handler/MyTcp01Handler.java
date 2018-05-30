@@ -8,14 +8,19 @@ import org.apache.mina.core.session.IoSession;
 import com.google.gson.Gson;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectType;
-import com.mvc.service.impl.SessionManagerServiceImpl;
+import com.mina.net.Connection;
+import com.mina.session.ClientSession;
+import com.mina.session.SessionManager;
+
+
 
 public class MyTcp01Handler extends IoHandlerAdapter {
-
+	
+	public static final String  CONNECT_ATTR="CONNECT_ATTR"; 
+	
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 		System.out.println(session.getId()+":sessionCreated");
-		SessionManagerServiceImpl.getInstance().sessionCreated(session);
 	}
 
 	@Override
@@ -27,7 +32,8 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
 		System.out.println(session.getId()+":sessionClosed");
-
+		Connection connection=(Connection)session.getAttribute(CONNECT_ATTR);
+		connection.close(); 
 	}
 
 	@Override
@@ -49,18 +55,23 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 		System.out.println(new Gson().toJson(message));
 		SmsObject  smsObject=(SmsObject)message;
 		String typeString=smsObject.getType();
-		if(!TextUtils.isEmpty(typeString)&&ConnectType.CONNECT.equals(typeString)){
-			System.out.println(session.getId()+":连接["+smsObject.getBody()+"]");
-			doConnect( session,  message);
-		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.HEART_BEATER.equals(typeString)) {
+		if(!TextUtils.isEmpty(typeString)&&ConnectType.HEART_BEATER.equals(typeString)) {
 			System.out.println(session.getId()+":心跳["+smsObject.getBody()+"]");
-		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DATA.equals(typeString)) {
+			return ;
+		}else if(!TextUtils.isEmpty(typeString)&&ConnectType.CONNECT.equals(typeString)){
+			System.out.println(session.getId()+":连接["+smsObject.getBody()+"]");
+			Connection connection =new Connection(session);
+			ClientSession clientSession=SessionManager.getInstance().createClientSession(connection, smsObject.getReceiver());
+			SessionManager.getInstance().addSession(clientSession);
+			session.setAttribute(CONNECT_ATTR, connection);
+			
+		} else if (!TextUtils.isEmpty(typeString)&&ConnectType.DATA.equals(typeString)) {
 			System.out.println(session.getId()+":数据["+smsObject.getBody()+"]");
 		}else if (!TextUtils.isEmpty(typeString)&&ConnectType.DISCONNECT.equals(typeString)) {
 			System.out.println(session.getId()+":断连["+smsObject.getBody()+"]");
+			Connection connection=(Connection)session.getAttribute(CONNECT_ATTR);
+			connection.close(); 
 		}
-		
-		session.write( new SmsObject(ConnectType.DATA,"no", "no","no", "i am service , "+smsObject.getBody()));
 		
 		//短连接   一连上来就关闭 
 		//session.closeOnFlush();
@@ -75,13 +86,7 @@ public class MyTcp01Handler extends IoHandlerAdapter {
 	@Override
 	public void inputClosed(IoSession session) throws Exception {
 		System.out.println(session.getId()+":inputClosed"); 
-		SessionManagerServiceImpl.getInstance().sessionRemoved(session);
 		super.inputClosed(session);
 	}
-	
-	private void doConnect(IoSession session, Object message) {
-		
-	}
-	
 	
 }

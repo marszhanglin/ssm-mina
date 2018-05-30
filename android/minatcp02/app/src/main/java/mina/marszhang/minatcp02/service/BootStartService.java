@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 
-/*
+
 /**
  * <B style="color:#00f"> 系统启动服务</B>
  * <br>

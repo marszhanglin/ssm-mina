@@ -16,6 +16,9 @@ public class User {
     private Date createTime;
 
     private String iosessionId;
+    
+    /** 00在线  01超时离线   02断开连接 */
+    private String netonlineStatus;
 
     public Integer getId() {
         return id;
@@ -71,5 +74,13 @@ public class User {
 
     public void setIosessionId(String iosessionId) {
         this.iosessionId = iosessionId == null ? null : iosessionId.trim();
+    }
+
+    public String getNetonlineStatus() {
+        return netonlineStatus;
+    }
+
+    public void setNetonlineStatus(String netonlineStatus) {
+        this.netonlineStatus = netonlineStatus == null ? null : netonlineStatus.trim();
     }
 }

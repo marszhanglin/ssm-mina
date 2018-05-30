@@ -35,20 +35,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<meta content="" name="description" />
 
 	<meta content="" name="author" />
+	
+	<%@include file="/baseinclude/base_css.jsp"%>
+	
 
-	<!-- BEGIN GLOBAL MANDATORY STYLES -->
-
-	<link href="<%=basePath%>media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-
-	<link href="<%=basePath%>media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-
-	<link href="<%=basePath%>media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-
-	<link href="<%=basePath%>media/css/style-metro.css" rel="stylesheet" type="text/css"/>
-
-	<link href="<%=basePath%>media/css/style.css" rel="stylesheet" type="text/css"/>
-
-	<link href="<%=basePath%>media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
 	
 	<!-- id 是用来切换样式的 详细：app.js的setColor-->
 	<link href="<%=basePath%>media/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
@@ -93,7 +83,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 				<!-- BEGIN LOGO -->
 
-				<a class="brand" href="index.html">
+				<a class="brand" href="../index">
 
 				<img src="<%=basePath%>media/image/logo.png" alt="logo"/>
 
@@ -269,6 +259,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<i class="icon-bar-chart"></i> 
 
 					<span class="title">用户管理</span>
+
+					</a>
+
+				</li>
+				
+				
+				<li class="last change_iframe " data="{url:'exit_system',title:'退出',discription:'退出系统'}">
+
+					<a href="#">
+
+					<i class="icon-bar-chart"></i> 
+
+					<span class="title">退出</span>
 
 					</a>
 
@@ -459,11 +462,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		
 		   App.init(); // initlayout and core plugins
 		  
-		   Index_cus.init();
+		   Index_cus.init(); 
 		   
 		});
-
-	</script>
+		 
+		</script>
 
 	<!-- END JAVASCRIPTS -->
 

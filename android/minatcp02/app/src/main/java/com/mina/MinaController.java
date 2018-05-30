@@ -6,7 +6,7 @@ import com.mina.codec.sms.SmsCodecFactory;
 import com.mina.codec.sms.SmsObject;
 import com.mina.connectmanage.ConnectConfig;
 import com.mina.connectmanage.ConnectType;
-import com.mina.connectmanage.MinaMessageInterface;
+import com.mina.util.NetWorkUtils;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -14,12 +14,12 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
+import mina.marszhang.minatcp02.App;
 import mina.marszhang.minatcp02.common.Const;
 import mina.marszhang.minatcp02.util.RegexUtil;
 
@@ -36,7 +36,7 @@ import mina.marszhang.minatcp02.util.RegexUtil;
  */
 public class MinaController {
 
-    private List<MinaMessageInterface> mMinaMessageInterfaces=new ArrayList<MinaMessageInterface>();
+
     private InetSocketAddress mInetSocketAddress;
     private static MinaController INSTANCE =null;
     private MinaController(){
@@ -51,59 +51,42 @@ public class MinaController {
         nioSocketConnector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionCreated(IoSession session) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("sessionCreated");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"sessionCreated"+session.getId()));
             }
 
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("sessionOpened");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"sessionOpened"+session.getId()));
             }
 
             @Override
             public void sessionClosed(IoSession session) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("sessionClosed");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"sessionClosed"+session.getId()));
             }
 
             @Override
             public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("sessionIdle");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"sessionIdle"+session.getId()+",status:"+status.toString()));
             }
 
             @Override
             public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("exceptionCaught");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"exceptionCaught"+session.getId()));
             }
 
             @Override
             public void messageReceived(IoSession session, Object message) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.messageReceived(message);
-                    minaMessageInterface.systemMsg("messageReceived");
-                }
+                EventBus.getDefault().post(new SmsEventMessage((SmsObject) message,"messageReceived"+session.getId()));
             }
 
             @Override
             public void messageSent(IoSession session, Object message) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("messageSent");
-                }
+                EventBus.getDefault().post(new SmsEventMessage((SmsObject) message,"messageSent"+session.getId()));
             }
 
             @Override
             public void inputClosed(IoSession session) throws Exception {
-                for(MinaMessageInterface minaMessageInterface : mMinaMessageInterfaces){
-                    minaMessageInterface.systemMsg("inputClosed");
-                }
+                EventBus.getDefault().post(new SmsEventMessage(null,"inputClosed"+session.getId()));
                 session.closeOnFlush();
             }
         });
@@ -120,23 +103,22 @@ public class MinaController {
 
     public void setConfig(ConnectConfig connectConfig)  {
         if (connectConfig == null) {
+            EventBus.getDefault().post(new SmsEventMessage(null,"connectConfig  is  null"));
             throw new NullPointerException("connectConfig  is  null");
         }
-        if (connectConfig.getMinaMessageInterface() == null) {
-            throw new NullPointerException("MinaMessageInterface is null");
-        }
         if (connectConfig.getIp() == null) {
+            EventBus.getDefault().post(new SmsEventMessage(null,"host ip is  null"));
             throw new NullPointerException("host ip is  null");
         }
         if (connectConfig == null) {
+            EventBus.getDefault().post(new SmsEventMessage(null,"connectConfig  is  null"));
             throw new NullPointerException("connectConfig  is  null");
         }
         mInetSocketAddress = new InetSocketAddress(connectConfig.getIp(),connectConfig.getPort());
-        mMinaMessageInterfaces.add(connectConfig.getMinaMessageInterface());
     }
 
 
-
+    /** 连接其他地址*/
     public void changeAddr(String ip,int port){
         if(RegexUtil.isIp(ip)){
             Log.e("$$$$$$","$$$$$$:not Ip value");
@@ -153,26 +135,34 @@ public class MinaController {
     /**mina连接状态 表示曾经*/
     private ConnectFuture connectFuture;
     public long connect(){
-
-        switch (getConnectState()) {
-            case future_false:
-                connectFuture=nioSocketConnector.connect(mInetSocketAddress);
-                connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
-                ioSession = connectFuture.getSession();
-                ioSession.write(new SmsObject(ConnectType.CONNECT,"no", "no","no","connect"));
-                break;
-            case session_false:
-                connectFuture=nioSocketConnector.connect(mInetSocketAddress);
-                connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
-                ioSession = connectFuture.getSession();
-                ioSession.write(new SmsObject(ConnectType.CONNECT,"no", "no","no","connect"));
-                break;
-            case session_true:
-                break;
+        if (!NetWorkUtils.isNetWorkAvailable(App.getContext())){
+            Log.d("$$$$$$","网络未连接,无法连接后台");
+            return -1;
         }
-        Log.d("$$$$$$", "$$$$$$connect:"+ioSession.getId());
+
+        try {
+            switch (getConnectState()) {
+                case future_false:
+                    connectFuture=nioSocketConnector.connect(mInetSocketAddress);
+                    connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
+                    ioSession = connectFuture.getSession();
+                    ioSession.write(new SmsObject(ConnectType.CONNECT,"12345", "no","no","connect"));
+                    break;
+                case session_false:
+                    connectFuture=nioSocketConnector.connect(mInetSocketAddress);
+                    connectFuture.awaitUninterruptibly();//awaitUninterruptibly 是阻塞方法，等待write写完
+                    ioSession = connectFuture.getSession();
+                    ioSession.write(new SmsObject(ConnectType.CONNECT,"12345", "no","no","connect"));
+                    break;
+                case session_true:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("$$$$$$", "$$$$$$connect:"+(null!=ioSession?ioSession.getId():ioSession));
         // TODO 连接之后的心跳处理
-        return ioSession.getId();
+        return (null!=ioSession?ioSession.getId():-1);
     }
 
     public boolean disconnect(){
@@ -211,6 +201,10 @@ public class MinaController {
      */
     public boolean sendMessage(SmsObject smsObject){
         connect();
+        if(null==connectFuture||null==ioSession){
+            Log.d("$$$$$$", "未连接无法发送消息");
+            return false;
+        }
         connectFuture.awaitUninterruptibly();
         ioSession.write(smsObject);
         return true;

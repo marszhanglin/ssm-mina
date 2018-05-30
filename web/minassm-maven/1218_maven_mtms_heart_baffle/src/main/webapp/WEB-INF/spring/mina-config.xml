@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">    
         
-	 <!-- =============================================================== -->
+	<!-- =============================================================== -->
 	<!-- MINA                                                            -->
 	<!-- =============================================================== -->
 
@@ -79,9 +79,7 @@
 	
 	
 	<!-- 短信推送 -->
-
-
-	<bean id="sms-handler" class="mars.mina.mtms_heart_buffle.handler.HeartHandler" />
+	<bean id="sms-handler" class="com.minasms.handler.MyTcp01Handler" />
 
 
 	<bean id="sms-filterchainbuilder"
@@ -96,7 +94,7 @@
 					<bean class="org.apache.mina.filter.codec.ProtocolCodecFilter">
 						<constructor-arg>
 							<!-- 自定义的编解码处理工厂 -->
-							<bean class="mars.mina.mtms_heart_buffle.codec.MtmsHeartCodecFactory" >
+							<bean class="com.minasms.codec.sms.SmsCodecFactory" >
 
 							</bean>
 							<!-- mina提供的编解码处理工厂  消息对象是一行string对象-->

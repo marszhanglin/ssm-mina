@@ -9,9 +9,10 @@
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="iosession_id" property="iosessionId" jdbcType="VARCHAR" />
+    <result column="netonline_status" property="netonlineStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, password, email, birthday, create_time, iosession_id
+    id, name, password, email, birthday, create_time, iosession_id, netonline_status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -19,107 +20,117 @@
     from users
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from users
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mvc.model.User" >
+  <insert id="insert" parameterType="com.mvc.model.User">
     insert into users (id, name, password, 
       email, birthday, create_time, 
-      iosession_id)
+      iosession_id, netonline_status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{iosessionId,jdbcType=VARCHAR})
+      #{iosessionId,jdbcType=VARCHAR}, #{netonlineStatus,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mvc.model.User" >
+  <insert id="insertSelective" parameterType="com.mvc.model.User">
     insert into users
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         password,
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         email,
       </if>
-      <if test="birthday != null" >
+      <if test="birthday != null">
         birthday,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="iosessionId != null" >
+      <if test="iosessionId != null">
         iosession_id,
       </if>
+      <if test="netonlineStatus != null">
+        netonline_status,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="birthday != null" >
+      <if test="birthday != null">
         #{birthday,jdbcType=DATE},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="iosessionId != null" >
+      <if test="iosessionId != null">
         #{iosessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="netonlineStatus != null">
+        #{netonlineStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mvc.model.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.mvc.model.User">
     update users
-    <set >
-      <if test="name != null" >
+    <set>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="birthday != null" >
+      <if test="birthday != null">
         birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="iosessionId != null" >
+      <if test="iosessionId != null">
         iosession_id = #{iosessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="netonlineStatus != null">
+        netonline_status = #{netonlineStatus,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mvc.model.User" >
+  <update id="updateByPrimaryKey" parameterType="com.mvc.model.User">
     update users
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      iosession_id = #{iosessionId,jdbcType=VARCHAR}
+      iosession_id = #{iosessionId,jdbcType=VARCHAR},
+      netonline_status = #{netonlineStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+ 
   
   
   
   
-  
-  
+  <!-- 自定义部分 -->
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -146,6 +157,6 @@
     from users
     where id > (select id from users limit #{0,jdbcType=INTEGER} , 1 ) limit  #{1,jdbcType=INTEGER}
   </select>
-  
+  <!-- 自定义部分结束 -->
   
 </mapper>

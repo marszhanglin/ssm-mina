@@ -136,16 +136,13 @@
   <select id="findPageByPage" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from users
-    where id > (select id from users limit #{0,jdbcType=INTEGER} , 1 ) limit  #{1,jdbcType=INTEGER}
+    from users  limit  #{0,jdbcType=INTEGER} , #{1,jdbcType=INTEGER}
   </select>
   
-    <select id="findPageByPageCount" resultMap="BaseResultMap" >
-    select 
-    count(id)
-    from users
-    where id > (select id from users limit #{0,jdbcType=INTEGER} , 1 ) limit  #{1,jdbcType=INTEGER}
-  </select>
   
+  
+  <select id="count" resultType="java.lang.Integer"  >  
+    select count(1)   from users 
+  </select> 
   
 </mapper>

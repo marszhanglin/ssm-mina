@@ -102,24 +102,7 @@
 
 	<!-- END FOOTER -->
 
-	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
-
-	<script>
-		var basePath="<%=basePath%>";
-	</script>
-	<!-- BEGIN CORE PLUGINS -->
-
-	<script src="<%=basePath%>media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-
-	<script src="<%=basePath%>media/js/jquery.json-2.4.min.js" type="text/javascript"></script>
-
-	<script src="<%=basePath%>media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-
-	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-
-	<script src="<%=basePath%>media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
-
-	<script src="<%=basePath%>media/js/bootstrap.min.js" type="text/javascript"></script>
+	<%@include file="/baseinclude/base_js.jsp"%>
 
 	<!--[if lt IE 9]>
 
@@ -147,16 +130,41 @@
 
 	<!-- BEGIN PAGE LEVEL SCRIPTS --> 
 
-	<script src="<%=basePath%>media/js/table-managed_cus.js"></script>     
+	<script src="<%=basePath%>mina/users/table-managed_cus.js"></script>     
 
 	<script>
 
 		jQuery(document).ready(function() {       
 			
-		   TableManaged_cus.init();
+		   	TableManaged_cus.init();
 			
-		});
-
+		}); 
+	 
+	    	
+	    	$(document).ajaxError(function(event,request,ajaxOptions,thrownError){ 
+			   		if(request.responseText.indexOf('您已经太长时间没有操作,请刷新页面') > 0){   
+				   //if(request.getResponseHeader("sessionstatus")=="sessionOut" ){
+			    	var top = getTopWinow();
+		            var yes = confirm('由于您长时间没有操作, session已过期, 请重新登录.');
+		            if (yes) {
+		                top.location.href = basePath+'/login';            
+		            }
+			    } 
+			}); 
+		
+		/**
+		 * 在页面中任何嵌套层次的窗口中获取顶层窗口
+		 * @return 当前页面的顶层窗口对象
+		 */
+		function getTopWinow(){
+			var p = window;
+			while(p != p.parent){
+				p = p.parent;
+			}
+			return p;
+		}
+		
+		
 	</script>
 
 

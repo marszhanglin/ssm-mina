@@ -11,15 +11,8 @@ import mina.marszhang.minatcp02.common.Const;
 public class ConnectConfig {
     private String ip;
     private int port;
-    private MinaMessageInterface minaMessageInterface;
 
-    public MinaMessageInterface getMinaMessageInterface() {
-        return minaMessageInterface;
-    }
 
-    public void setMinaMessageInterface(MinaMessageInterface minaMessageInterface) {
-        this.minaMessageInterface = minaMessageInterface;
-    }
 
     public String getIp() {
         return ip;
@@ -40,18 +33,11 @@ public class ConnectConfig {
     /**
      *
      * @param ip
-     * @param minaMessageInterface 消息回调接口
      * @param port
      */
-    public ConnectConfig(String ip, MinaMessageInterface minaMessageInterface, int port) {
+    public ConnectConfig(String ip,  int port) {
         this.ip = ip;
-        this.minaMessageInterface = minaMessageInterface;
         this.port = port;
     }
 
-    public ConnectConfig(MinaMessageInterface minaMessageInterface) {
-        this.ip = Const.MINA_IP;
-        this.minaMessageInterface = minaMessageInterface;
-        this.port = Const.MINA_PORT;
-    }
 }

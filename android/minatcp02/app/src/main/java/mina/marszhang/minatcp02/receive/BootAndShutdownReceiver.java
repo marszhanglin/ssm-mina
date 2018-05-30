@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import mina.marszhang.minatcp02.service.BootStartService;
+import mina.marszhang.minatcp02.service.SmsMessageMonitorService;
 
 /**
  * 开关机广播
@@ -24,9 +25,15 @@ public class BootAndShutdownReceiver extends BroadcastReceiver {
 			// 打印开机时间
 			String currentDate = simpleDateFormat.format(new Date());
 			Log.d("$$$$$$", "$$$$$$开机时间："+currentDate);
-			
-			Intent sev = new Intent(context, BootStartService.class);
-			context.startService(sev);
+
+
+			Intent msgMS = new Intent(context, SmsMessageMonitorService.class);
+			context.startService(msgMS);
+
+			Intent btS = new Intent(context, BootStartService.class);
+			context.startService(btS);
+
+
 			
 		}else if(action.equals(Intent.ACTION_SHUTDOWN)){
 			SimpleDateFormat simpleDateFormat=new SimpleDateFormat( "yyyy年MM月dd日 HH:mm:ss");
